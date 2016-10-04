@@ -1,0 +1,20 @@
+# generator info
+name: Spring Boot Rest Microservice
+group: atomist-project-templates
+artifact: spring-rest-service
+version: 2.0.0
+
+# backing git repo
+repo: git@github.com:atomist-project-templates/spring-rest-service.git
+branch: master
+sha: 332b7a618cdae590b6cf6eb3c09648208d2ecc3a
+
+# parameter values
+project_name: spring-microservice
+artifact_id: spring-microservice
+group_id: org.spring.boot.rest.example
+version: 1.0.0-SNAPSHOT
+description: Spring boot rest micro service project
+root_package: org.spring.boot.rest.example
+service_class_name: SimpleService
+
