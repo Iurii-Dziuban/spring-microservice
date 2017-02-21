@@ -1,0 +1,128 @@
+swagger: '2.0'
+
+info:
+  version: "1.0.0"
+  title: User Service
+
+host: localhost:9000
+basePath: /userService/v1
+schemes:
+  - http
+
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication
+
+paths:
+  /users/{userid}:
+    get:
+      summary: gets the available user
+      security:
+        - basicAuth: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: user identifier
+          required: true
+          type: string
+      responses:
+        "200":
+          description: If there is an user then return the data
+          schema:
+            $ref: "#/definitions/User"
+        "400":
+          description: something wrong with the input parameters
+        "404":
+          description: no user found
+        "500":
+          description: System Error
+          
+    post:
+      summary: modify the available user
+      description: we have to separate the two modes "update" and "set".
+        In case of "update" an user record must exist already. This will be adjusted then.
+        In case of "set" an existing record will be overwritten, otherwise a new one will be created.
+      security:
+        - basicAuth: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: user identifier
+          required: true
+          type: string
+        - name: mode
+          in: query
+          description: determines whether the amount is added to the current available amount or whether it is set to the provided amount
+          type: string
+          enum: [ "update", "set" ]
+        - name: user
+          in: body
+          description: use this amount to modify the available credit
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: user was adjusted
+        "400":
+          description: something wrong with the input parameters
+        "404":
+          description: no user found in case of mode "update"
+        "500":
+          description: System Error
+      
+    delete:
+      summary: delete user record
+      description: this is needed in case in case user no longer needed
+      security:
+        - basicAuth: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: user
+          required: true
+          type: string
+      responses:
+        "200":
+          description: user was deleted
+        "400":
+          description: something wrong with the input parameters
+        "404":
+          description: no user found
+        "500":
+          description: System Error
+
+definitions:
+  User:
+    type: object
+    required:
+      - userId
+      - userName
+      - birthDate
+    properties:
+      userId:
+        description: User identifier
+        type: string
+      userName:
+        description: User name
+        type: string
+      birthDate:
+        description: date and time in ISO8601 format.
+        type: string
+         
+  ResponseLog:
+    description: free text lines with transaction related information which can be e.g. logged by the caller
+    type: object
+    required:
+      - responseLog
+    properties:
+      responseLog:
+        type: array
+        items:
+          type: string

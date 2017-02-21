@@ -1,29 +1,53 @@
+Project shows capabilities of spring boot micro service along with spring mvc, rest, spring security, jpa, hibernate and h2 db.
 
-spring-microservice microservice
-===========================
+0) Project structure
 
-Originally created on 2016-10-04.
+database - db scripts for h2 flyway eligible and dev oracle
+db - local h2 db
+user-service - spring boot entry point and configuration
+user-service-client-api - java client api
+user-service-model - business model
+user-service-persistence - jpa persistence
+user-service-provider - services
+user-service-resource - hateaos and UI model
+user-service-webapp - rest controllers
+user-service-webapp-interfaces = rest interfaces
 
-Spring boot rest micro service project
+user-codegen - experimental project to generate java from swagger specification.
+                                      Could be handy for quick look.
+  mvn clean generate-sources
 
-To run locally
---------------
+1) Running application locally with in memory h2 db with flyway migrations and swagger turned on :
 
-This Spring Boot microservice is driven using Maven. To run locally simply execute the following from the command line:
+IDEA:
 
-```shell
-> ./mvnw spring-boot:run
-```
+run/debug UserServiceStarter.java as Spring boot application (set "Active profiles" to "dev" without quotes.)
 
-To run tests
-------------
+Packaged jar:
 
-This microservice comes with some rudimentary tests as a good starting point for writing your own. Use the following command to execute the tests using Maven:
+  java -jar user-service/target/user-service.jar
+         with profile
+  java -Dspring.profiles.active=dev -jar user-service/target/user-service.jar
 
-```shell
-> ./mvnw test
-```
+    with remote debuging
 
+  java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar user-service/target/user-service.jar
+         with profile
+  java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -Dspring.profiles.active=dev -jar user-service/target/user-service.jar
 
----
-Created by Atomist. Need Help? <a href="https://join.atomist.com/">Join our Slack team</a>
+Maven goal:
+  cd user-service
+    mvn spring-boot:run
+         with profile
+    mvn spring-boot:run -Drun.profiles=dev
+
+3) Swagger on local env:
+URLs:
+    http://localhost:9000/ ping page
+    http://localhost:9000/swagger-ui.html - UI representation of services.
+    http://localhost:9000/v2/api-docs - json swagger schema
+
+4) Logs
+Log configuration is under "user-service\src\main\resources\logback-spring.xml"
+Look for "springProfile" for default, dev profiles: Console appender, File appender, etc.
+Log folder: /logs

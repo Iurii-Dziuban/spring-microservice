@@ -1,64 +1,379 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.spring.boot.rest.example</groupId>
-	<artifactId>spring-microservice</artifactId>
+	<groupId>com.iurii.microservice</groupId>
+	<artifactId>user-service-reactor</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
-	<name>spring-microservice</name>
-	<description>Spring boot rest micro service project</description>
+	<name>User Service build reactor</name>
+	<description>REST web service offering services related to user</description>
+	<inceptionYear>2017</inceptionYear>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.1.RELEASE</version>
+		<version>1.4.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
+	<scm>
+		<connection>scm:git:https://github.com/Iurii-Dziuban/spring-microservice.git</connection>
+		<developerConnection>scm:git:git@github.com:Iurii-Dziuban/spring-microservice.git</developerConnection>
+		<url>https://github.com/Iurii-Dziuban/spring-microservice</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<ciManagement>
+		<url>https://travis-ci.org/Iurii-Dziuban/spring-microservice</url>
+		<system>Travis</system>
+	</ciManagement>
+
+	<developers>
+		<developer>
+			<id>iurii.dziuban</id>
+			<name>Iurii Dziuban</name>
+			<email>ydzyuban@gmail.com</email>
+		</developer>
+	</developers>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<timestamp>${maven.build.timestamp}</timestamp>
-    <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+		<wd-bom.version>1.40</wd-bom.version>
+		<com.wirecard.standards.version>1.8</com.wirecard.standards.version>
+		<jacoco.ratio.instruction>0.0</jacoco.ratio.instruction>
+		<jacoco.ratio.bundle>0.0</jacoco.ratio.bundle>
+
+		<!-- TODO
+		<jacoco.ratio.instruction>0.65</jacoco.ratio.instruction>
+		<jacoco.ratio.bundle>0.65</jacoco.ratio.bundle>
+		-->
 	</properties>
 
-	<dependencies>
-		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-web</artifactId>
-    		<exclusions>
-        		<exclusion>
-            		<groupId>org.springframework.boot</groupId>
-            		<artifactId>spring-boot-starter-tomcat</artifactId>
-        		</exclusion>
-    		</exclusions>
-		</dependency>
-		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency>
+	<modules>
+		<module>user-service</module>
+		<module>user-service-resource</module>
+		<module>user-service-model</module>
+		<module>user-service-webapp</module>
+		<module>user-service-provider</module>
+		<module>user-service-persistence</module>
+		<module>user-service-client-api</module>
+    </modules>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
+	<dependencyManagement>
+		<dependencies>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>18.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>java-hamcrest</artifactId>
+				<version>2.0.0.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>11.2.0.2.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.tomakehurst</groupId>
+				<artifactId>wiremock</artifactId>
+				<version>2.1.9</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.4.193</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-core</artifactId>
+				<version>4.0.3</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>2.6.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>2.6.1</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.4.201502262128</version>
+					<configuration>
+						<rules>
+							<rule>
+								<element>BUNDLE</element>
+								<limits>
+									<limit>
+										<counter>INSTRUCTION</counter>
+										<value>COVEREDRATIO</value>
+										<minimum>${jacoco.ratio.instruction}</minimum>
+									</limit>
+								</limits>
+							</rule>
+
+							<rule>
+								<element>BUNDLE</element>
+								<limits>
+									<limit>
+										<counter>BRANCH</counter>
+										<value>COVEREDRATIO</value>
+										<minimum>${jacoco.ratio.bundle}</minimum>
+									</limit>
+								</limits>
+							</rule>
+						</rules>
+					</configuration>
+
+					<executions>
+						<execution>
+							<id>jacoco-initialize</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+
+						<execution>
+							<id>jacoco-report</id>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+
+						<execution>
+							<id>jacoco-check</id>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>3.0.2</version>
+					<executions>
+						<execution>
+							<id>findbugs</id>
+							<goals>
+								<goal>check</goal>
+							</goals>
+							<phase>verify</phase>
+						</execution>
+					</executions>
+					<configuration>
+						<failOnError>true</failOnError>
+						<includeTests>false</includeTests>
+						<threshold>High</threshold>
+						<effort>Max</effort>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>1.4.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>rpm-maven-plugin</artifactId>
+					<version>2.1.4</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<groupId>org.codehaus.mojo</groupId>
+					<version>2.6</version>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
+
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<releaseProfiles>release</releaseProfiles>
+					<!-- sources & javadoc are already attached -->
+					<useReleaseProfile>false</useReleaseProfile>
+				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce</id>
+						<configuration>
+							<rules>
+								<reactorModuleConvergence/>
+								<DependencyConvergence/>
+								<requireNoRepositories/>
+								<requireMavenVersion>
+									<version>3.0.5</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<phase>validate</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.5</version>
+				<configuration>
+					<targetJdk>${java.version}</targetJdk>
+					<minimumTokens>56</minimumTokens>
+					<excludes>
+						<exclude>**/persistance/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>cpd-check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<!--
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                        -->
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.versioneye</groupId>
+				<artifactId>versioneye-maven-plugin</artifactId>
+				<version>3.11.1</version>
+			</plugin>
+
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>enforce-release-rules</id>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<!-- When releasing, also enforce release dependencies / project version -->
+										<requireReleaseDeps/>
+										<requireReleaseVersion/>
+										<reactorModuleConvergence/>
+										<DependencyConvergence/>
+										<requireNoRepositories/>
+										<requireMavenVersion>
+											<version>3.0.5</version>
+										</requireMavenVersion>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<distributionManagement>
+		<repository>
+			<id>bintray</id>
+			<url>https://api.bintray.com/maven/iurii-dziuban/public/spring-microservice</url>
+		</repository>
+	</distributionManagement>
 
 </project>
