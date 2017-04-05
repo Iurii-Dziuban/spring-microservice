@@ -1,3 +1,11 @@
+#spring-microservice - spring boot example
+[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badge/)    
+
+[![Build Status](https://travis-ci.org/Iurii-Dziuban/spring-microservice.svg?branch=master)](https://travis-ci.org/Iurii-Dziuban/spring-microservice)
+[![Coverage Status](https://coveralls.io/repos/github/Iurii-Dziuban/spring-microservice/badge.svg?branch=master)](https://coveralls.io/github/Iurii-Dziuban/spring-microservice?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/58e33daa26a5bb002b54c0c6/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58e33daa26a5bb002b54c0c6)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Iurii-Dziuban/spring-microservice/issues)
+
 Project shows capabilities of spring boot micro service along with spring mvc, rest, spring security, jpa, hibernate and h2 db.
 
 0) Project structure
