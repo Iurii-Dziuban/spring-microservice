@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
@@ -22,7 +24,10 @@ import java.util.Date;
     private String name;
 
     @Column(name = "BIRTH_DATE", columnDefinition = "date", nullable = false)
-    private Date birthDate;
+    private LocalDate birthDate;
+
+    @Column(name = "UPDATED_TIME", columnDefinition = "timestamp", nullable = false)
+    private ZonedDateTime updatedTime;
 
     @Transient
     private boolean isNew = false;
