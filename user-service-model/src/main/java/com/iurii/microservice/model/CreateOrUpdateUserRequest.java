@@ -3,13 +3,12 @@ package com.iurii.microservice.model;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.ZonedDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
 public class CreateOrUpdateUserRequest {
     private String userId;
     private String userName;
-    private Date birthDate;
+    private LocalDate birthDate;
 }

@@ -10,7 +10,7 @@ Project shows capabilities of spring boot micro service along with spring mvc, r
 
 0) Project structure
 
-database - db scripts for h2 flyway eligible and dev oracle
+database - db scripts for h2 flyway eligible
 db - local h2 db
 user-service - spring boot entry point and configuration
 user-service-client-api - java client api

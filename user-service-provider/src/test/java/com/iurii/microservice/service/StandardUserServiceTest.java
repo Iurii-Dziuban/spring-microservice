@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 public class StandardUserServiceTest {
 
     private static final String ID = "4";
-    public static final Date BIRTH_DATE = new Date(1990, 4, 16);
+    public static final LocalDate BIRTH_DATE = LocalDate.of(1990, 4, 16);
     public static final String NAME = "iurii";
 
     private UserRepository repository;

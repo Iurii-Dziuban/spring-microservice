@@ -2,13 +2,13 @@ package com.iurii.microservice.service;
 
 import com.iurii.microservice.api.resources.user.UserResource;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface UserService {
 
-    ServiceResponseCode createUser(String id, String name, Date birthDate);
+    ServiceResponseCode createUser(String id, String name, LocalDate birthDate);
 
-    ServiceResponseCode updateUser(String id, String name, Date birthDate);
+    ServiceResponseCode updateUser(String id, String name, LocalDate birthDate);
 
     ServiceResponseCode deleteUser(String id);
 

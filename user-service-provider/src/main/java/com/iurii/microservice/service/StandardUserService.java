@@ -11,12 +11,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 @Service
+@Transactional(propagation = REQUIRED, isolation = READ_COMMITTED, rollbackFor = Exception.class)
 public class StandardUserService implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StandardUserService.class);
@@ -32,8 +34,7 @@ public class StandardUserService implements UserService {
     }
 
     @Override
-    @Transactional(propagation = REQUIRED, isolation = READ_COMMITTED, rollbackFor = Exception.class)
-    public ServiceResponseCode createUser(String id, String name, Date birthDate) {
+    public ServiceResponseCode createUser(String id, String name, LocalDate birthDate) {
         boolean existsBcSig = userRepository.exists(id);
         User newUser = User.builder()
                 .isNew(!existsBcSig)
@@ -47,8 +48,7 @@ public class StandardUserService implements UserService {
     }
 
     @Override
-    @Transactional(propagation = REQUIRED, isolation = READ_COMMITTED, rollbackFor = Exception.class)
-    public ServiceResponseCode updateUser(String id, String name, Date birthDate) {
+    public ServiceResponseCode updateUser(String id, String name, LocalDate birthDate) {
 
         User oldRestriction = userRepository.findOne(id);
         if (oldRestriction == null) {
@@ -77,6 +77,7 @@ public class StandardUserService implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserResource getRestriction(String id) {
         User user = userRepository.findOne(id);
         return converter.convert(user);

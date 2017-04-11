@@ -4,6 +4,7 @@ import com.iurii.microservice.api.resources.user.UserResource;
 import com.iurii.microservice.persistance.entity.User;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -19,7 +20,7 @@ public class DefaultUserResourceConverterTest {
         User user = User.builder()
                 .id("1")
                 .name("iurii")
-                .birthDate(new Date(1990, 4, 16))
+                .birthDate(LocalDate.of(1990, 4, 16))
                 .build();
 
         UserResource result = converter.convert(user);

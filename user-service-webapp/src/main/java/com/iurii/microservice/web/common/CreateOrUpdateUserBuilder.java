@@ -7,10 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class CreateOrUpdateUserBuilder {
@@ -18,13 +16,8 @@ public class CreateOrUpdateUserBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrUpdateUserBuilder.class);
 
     public CreateOrUpdateUserRequest getCreateOrUpdateUserRequest(String id, UserResource userResource) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(userResource.getBirthDate());
-        } catch (ParseException e) {
-            LOGGER.error("date has wrong format", e);
-        }
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(userResource.getBirthDate(), dateFormat);
         return CreateOrUpdateUserRequest.builder()
                 .userName(userResource.getName())
                 .userId(id)
