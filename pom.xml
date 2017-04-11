@@ -44,14 +44,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<wd-bom.version>1.40</wd-bom.version>
-		<com.wirecard.standards.version>1.8</com.wirecard.standards.version>
-		<jacoco.ratio.instruction>0.0</jacoco.ratio.instruction>
-		<jacoco.ratio.bundle>0.0</jacoco.ratio.bundle>
 
-		<!-- TODO
-		<jacoco.ratio.instruction>0.65</jacoco.ratio.instruction>
-		<jacoco.ratio.bundle>0.65</jacoco.ratio.bundle>
-		-->
+		<jacoco.ratio.instruction>0.00</jacoco.ratio.instruction>
+		<jacoco.ratio.bundle>0.00</jacoco.ratio.bundle>
 	</properties>
 
 	<modules>
@@ -77,12 +72,6 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>18.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>java-hamcrest</artifactId>
-				<version>2.0.0.0</version>
 			</dependency>
 
 			<dependency>
@@ -115,6 +104,27 @@
 				<version>2.6.1</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-jsr310</artifactId>
+				<version>2.8.6</version>
+			</dependency>
+
+			<!-- Swagger codegen -->
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>1.5.12</version>
+			</dependency>
+
+			<!-- AssertJ - new assertions framework -->
+			<dependency>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-core</artifactId>
+				<version>3.6.2</version>
+				<scope>test</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -122,6 +132,23 @@
 
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.0.0</version>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>.</directory>
+								<includes>
+									<include>db/**</include>
+									<include>logs/**</include>
+								</includes>
+								<followSymlinks>false</followSymlinks>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
@@ -246,7 +273,8 @@
 							<rules>
 								<reactorModuleConvergence/>
 								<DependencyConvergence/>
-								<requireNoRepositories/>
+								<!-- commented - to use sevtu checkstyle extension -->
+								<!-- <requireNoRepositories/>-->
 								<requireMavenVersion>
 									<version>3.0.5</version>
 								</requireMavenVersion>
@@ -261,22 +289,62 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.5</version>
-				<configuration>
-					<targetJdk>${java.version}</targetJdk>
-					<minimumTokens>56</minimumTokens>
-					<excludes>
-						<exclude>**/persistance/**</exclude>
-					</excludes>
-				</configuration>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>7.6.1</version>
+					</dependency>
+					<dependency>
+						<groupId>com.github.sevntu.checkstyle</groupId>
+						<artifactId>sevntu-checkstyle-maven-plugin</artifactId>
+						<version>1.23.1</version>
+					</dependency>
+				</dependencies>
 				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<configLocation>checkstyles/basic-checkstyle-no-javadoc.xml</configLocation>
+							<logViolationsToConsole>true</logViolationsToConsole>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-pmd-plugin</artifactId>
+
+				<executions>
+					<execution>
+						<id>pmd-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<excludeFromFailureFile>exclude-pmd.properties</excludeFromFailureFile>
+						</configuration>
+					</execution>
 					<execution>
 						<goals>
 							<goal>cpd-check</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<targetJdk>${java.version}</targetJdk>
+					<minimumTokens>56</minimumTokens>
+					<linkXRef>false</linkXRef>
+					<verbose>true</verbose>
+					<excludes>
+						<exclude>**/persistance/**</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 
 
@@ -348,7 +416,8 @@
 										<requireReleaseVersion/>
 										<reactorModuleConvergence/>
 										<DependencyConvergence/>
-										<requireNoRepositories/>
+										<!-- commented - to use sevtu checkstyle extension -->
+										<!-- <requireNoRepositories/>-->
 										<requireMavenVersion>
 											<version>3.0.5</version>
 										</requireMavenVersion>
@@ -369,5 +438,13 @@
 			<url>https://api.bintray.com/maven/iurii-dziuban/public/spring-microservice</url>
 		</repository>
 	</distributionManagement>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sevntu-maven</id>
+			<name>sevntu-maven</name>
+			<url>http://sevntu-checkstyle.github.io/sevntu.checkstyle/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 </project>

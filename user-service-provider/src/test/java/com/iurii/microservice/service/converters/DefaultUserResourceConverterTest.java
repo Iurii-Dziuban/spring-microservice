@@ -5,11 +5,8 @@ import com.iurii.microservice.persistance.entity.User;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DefaultUserResourceConverterTest {
 
@@ -25,9 +22,9 @@ public class DefaultUserResourceConverterTest {
 
         UserResource result = converter.convert(user);
 
-        assertThat(result, is(notNullValue()));
-        assertThat(result.getBirthDate(), is(notNullValue()));
-        assertThat(result.getName(), is("iurii"));
+        assertThat(result).isNotNull();
+        assertThat(result.getBirthDate()).isNotNull();
+        assertThat(result.getName()).isEqualTo("iurii");
     }
 
 }

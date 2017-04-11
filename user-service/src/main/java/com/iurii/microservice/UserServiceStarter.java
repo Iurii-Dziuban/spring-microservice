@@ -11,8 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableMBeanExport
 @EnableWebMvc
 public class UserServiceStarter {
-
-	public static void main(String[] args) {
-		SpringApplication.run(UserServiceStarter.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UserServiceStarter.class, args);
+    }
 }

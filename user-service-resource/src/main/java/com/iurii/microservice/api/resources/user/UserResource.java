@@ -8,8 +8,6 @@ import lombok.Value;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.util.Date;
 
 @Value
 @ToString

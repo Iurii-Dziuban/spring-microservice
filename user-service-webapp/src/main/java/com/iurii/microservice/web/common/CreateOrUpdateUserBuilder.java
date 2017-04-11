@@ -16,6 +16,7 @@ public class CreateOrUpdateUserBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrUpdateUserBuilder.class);
 
     public CreateOrUpdateUserRequest getCreateOrUpdateUserRequest(String id, UserResource userResource) {
+        LOGGER.debug("creating CreateOrUpdateRequest");
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(userResource.getBirthDate(), dateFormat);
         return CreateOrUpdateUserRequest.builder()

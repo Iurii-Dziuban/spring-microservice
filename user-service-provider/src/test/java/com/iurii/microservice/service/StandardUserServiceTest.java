@@ -6,15 +6,16 @@ import com.iurii.microservice.persistance.entity.User;
 import com.iurii.microservice.service.converters.UserResourceConverter;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.BDDMockito;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.time.LocalDate;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 
 public class StandardUserServiceTest {
 
@@ -30,8 +31,8 @@ public class StandardUserServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        converter = mock(UserResourceConverter.class);
-        repository = mock(UserRepository.class);
+        converter = BDDMockito.mock(UserResourceConverter.class);
+        repository = BDDMockito.mock(UserRepository.class);
         service = new StandardUserService(repository, converter);
         user = User.builder().id(ID)
                 .name(NAME).birthDate(BIRTH_DATE).build();
@@ -47,20 +48,20 @@ public class StandardUserServiceTest {
 
         UserResource result = service.getRestriction(ID);
 
-        assertThat(result, is(notNullValue()));
-        assertThat(result.getBirthDate(), is(notNullValue()));
-        assertThat(result.getName(), is(NAME));
+        assertThat(result).isNotNull();
+        assertThat(result.getBirthDate()).isNotNull();
+        assertThat(result.getName()).isEqualTo(NAME);
 
-        verify(repository).findOne(ID);
-        verify(converter).convert(user);
+        then(repository).should().findOne(ID);
+        then(converter).should().convert(user);
     }
 
     @Test
     public void notFindRestriction() {
         UserResource result = service.getRestriction(ID);
 
-        assertThat(result, is(nullValue()));
-        verify(repository).findOne(ID);
+        assertThat(result).isNull();
+        then(repository).should().findOne(ID);
     }
 
     @Test
@@ -69,8 +70,8 @@ public class StandardUserServiceTest {
 
         ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE);
 
-        assertThat(responseCode, is(ServiceResponseCode.OK));
-        verify(repository).save((User) any());
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
+        then(repository).should().save((User) any());
     }
 
     @Test
@@ -80,8 +81,8 @@ public class StandardUserServiceTest {
 
         ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE);
 
-        assertThat(responseCode, is(ServiceResponseCode.OK));
-        verify(repository).save((User)any());
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
+        then(repository).should().save((User)any());
     }
 
     @Test
@@ -91,35 +92,35 @@ public class StandardUserServiceTest {
 
         ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE);
 
-        assertThat(responseCode, is(ServiceResponseCode.OK));
-        verify(repository).save((User) any());
-        verify(repository).findOne(ID);
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
+        then(repository).should().save((User) any());
+        then(repository).should().findOne(ID);
     }
 
     @Test
     public void updateRestrictionNotFoundFail() {
         ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE);
 
-        assertThat(responseCode, is(ServiceResponseCode.NOT_FOUND));
-        verify(repository).findOne(ID);
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.NOT_FOUND);
+        then(repository).should().findOne(ID);
     }
 
     @Test
     public void deleteRestrictionNotFound() {
-        doThrow(EmptyResultDataAccessException.class).when(repository).delete(ID);
+        willThrow(EmptyResultDataAccessException.class).given(repository).delete(ID);
 
         ServiceResponseCode responseCode = service.deleteUser(ID);
 
-        assertThat(responseCode, is(ServiceResponseCode.NOT_FOUND));
-        verify(repository).delete(ID);
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.NOT_FOUND);
+        then(repository).should().delete(ID);
     }
 
     @Test
     public void deleteRestrictionSuccessfully() {
         ServiceResponseCode responseCode = service.deleteUser(ID);
 
-        assertThat(responseCode, is(ServiceResponseCode.OK));
-        verify(repository).delete(ID);
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
+        then(repository).should().delete(ID);
     }
 
 }

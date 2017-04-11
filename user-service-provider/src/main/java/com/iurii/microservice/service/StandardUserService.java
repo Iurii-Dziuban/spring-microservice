@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
@@ -44,6 +43,7 @@ public class StandardUserService implements UserService {
                 .build();
 
         userRepository.save(newUser);
+        LOGGER.info("User with id {} is created", id);
         return ServiceResponseCode.OK;
     }
 

@@ -6,11 +6,16 @@ import com.iurii.microservice.api.resources.user.UserResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.Assert;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,10 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DefaultRestUserService {
 
@@ -90,7 +91,7 @@ public class DefaultRestUserService {
     }
 
     public ResponseEntity<Void> createOrUpdate(String id, String mode, UserResource userResource) {
-        assertThat("id is mandatory", id, is(notNullValue()));
+        Assert.notNull(id, "id is mandatory");
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", authHeader);
@@ -110,7 +111,7 @@ public class DefaultRestUserService {
     }
 
     public ResponseEntity<Void> delete(String id) {
-        assertThat("id is mandatory", id, is(notNullValue()));
+        Assert.notNull(id, "id is mandatory");
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", authHeader);
@@ -131,7 +132,7 @@ public class DefaultRestUserService {
     }
 
     public ResponseEntity<UserResource> get(String id) {
-        assertThat("id is mandatory", id, is(notNullValue()));
+        Assert.notNull(id, "id is mandatory");
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", authHeader);

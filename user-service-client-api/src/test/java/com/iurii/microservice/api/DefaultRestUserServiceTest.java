@@ -1,5 +1,6 @@
 package com.iurii.microservice.api;
 
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import com.iurii.microservice.api.resources.user.UserResource;
 import org.junit.Before;
@@ -9,14 +10,19 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.delete;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.givenThat;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static org.assertj.core.api.Assertions.assertThat;
+
+;
 
 public class DefaultRestUserServiceTest {
     @ClassRule
-    public static WireMockClassRule wireMockRule = new WireMockClassRule(wireMockConfig().dynamicPort());
+    public static WireMockClassRule wireMockRule = new WireMockClassRule(WireMockConfiguration.wireMockConfig().dynamicPort());
 
     @Rule
     public WireMockClassRule instanceRule = wireMockRule;
@@ -42,14 +48,14 @@ public class DefaultRestUserServiceTest {
 
         ResponseEntity<UserResource> response = defaultRestUserService.get("5");
 
-        assertThat(response, is(notNullValue()));
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         UserResource userResource = response.getBody();
 
-        assertThat(userResource, is(notNullValue()));
-        assertThat(userResource.getBirthDate(), is(notNullValue()));
-        assertThat(userResource.getName(), is("iurii"));
+        assertThat(userResource).isNotNull();
+        assertThat(userResource.getBirthDate()).isNotNull();
+        assertThat(userResource.getName()).isEqualTo("iurii");
     }
 
 
@@ -65,8 +71,8 @@ public class DefaultRestUserServiceTest {
 
         ResponseEntity<Void> response = defaultRestUserService.createOrUpdate("5", "set", userResource);
 
-        assertThat(response, is(notNullValue()));
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
@@ -81,8 +87,8 @@ public class DefaultRestUserServiceTest {
 
         ResponseEntity<Void> response = defaultRestUserService.createOrUpdate("5", "add", restrictionResource);
 
-        assertThat(response, is(notNullValue()));
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
@@ -95,8 +101,8 @@ public class DefaultRestUserServiceTest {
 
         ResponseEntity<Void> response = defaultRestUserService.delete("5");
 
-        assertThat(response, is(notNullValue()));
-        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
 
@@ -116,6 +122,6 @@ public class DefaultRestUserServiceTest {
 
         ResponseEntity<Void> response = defaultRestUserService.createOrUpdate("5", "set", restrictionResource);
 
-        assertThat(response, is(nullValue()));
+        assertThat(response).isNull();
     }
 }

@@ -3,12 +3,8 @@ package com.iurii.microservice.model;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.TimeZone;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreateOrUpdateUserRequestTest {
 
@@ -25,8 +21,8 @@ public class CreateOrUpdateUserRequestTest {
                 .userName(NAME)
                 .build();
 
-        assertThat(request.getUserId(), is(ID));
-        assertThat(request.getUserName(), is(NAME));
-        assertThat(request.getBirthDate(), is(BIRTH_DATE));
+        assertThat(request.getUserId()).isEqualTo(ID);
+        assertThat(request.getUserName()).isEqualTo(NAME);
+        assertThat(request.getBirthDate()).isEqualTo(BIRTH_DATE);
     }
 }

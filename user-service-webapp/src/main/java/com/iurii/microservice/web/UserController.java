@@ -10,7 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -35,18 +42,21 @@ public class UserController {
 
     @PostMapping(value = "/{userId}")
     public ResponseEntity<Void> createOrUpdate(
-            @PathVariable("userId") final String userId, @RequestParam("mode") @Pattern(regexp = "^update|set$") final String mode, @Valid @RequestBody UserResource userResource) {
+            @PathVariable("userId") final String userId, @RequestParam("mode")
+    @Pattern(regexp = "^update|set$") final String mode, @Valid @RequestBody UserResource userResource) {
 
         CreateOrUpdateUserRequest userRequest = builder.getCreateOrUpdateUserRequest(userId, userResource);
 
         ServiceResponseCode serviceResponseCode = null;
 
         if ("set".equals(mode)) {
-            serviceResponseCode = userService.createUser(userRequest.getUserId(), userRequest.getUserName(), userRequest.getBirthDate());
+            serviceResponseCode = userService.createUser(userRequest.getUserId(), userRequest.getUserName(),
+                    userRequest.getBirthDate());
         }
 
         if ("update".equals(mode)) {
-            serviceResponseCode = userService.updateUser(userRequest.getUserId(), userRequest.getUserName(), userRequest.getBirthDate());
+            serviceResponseCode = userService.updateUser(userRequest.getUserId(), userRequest.getUserName(),
+                    userRequest.getBirthDate());
         }
 
         return new ResponseEntity<>(HttpStatus.valueOf(serviceResponseCode.getCode()));
