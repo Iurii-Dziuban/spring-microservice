@@ -1,4 +1,4 @@
-package com.iurii.microservice.service;
+package com.iurii.microservice.service.response;
 
 public enum ServiceResponseCode {
 

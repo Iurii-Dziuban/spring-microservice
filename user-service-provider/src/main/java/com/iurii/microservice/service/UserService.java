@@ -1,6 +1,7 @@
 package com.iurii.microservice.service;
 
 import com.iurii.microservice.api.resources.user.UserResource;
+import com.iurii.microservice.service.response.ServiceResponseCode;
 
 import java.time.LocalDate;
 

@@ -56,6 +56,8 @@ public class DefaultRestUserServiceTest {
         assertThat(userResource).isNotNull();
         assertThat(userResource.getBirthDate()).isNotNull();
         assertThat(userResource.getName()).isEqualTo("iurii");
+        assertThat(userResource.getUpdatedTime()).isEqualTo("2015-12-24T18:21:05Z");
+        assertThat(userResource.getMoney()).isEqualTo("1234");
     }
 
 
@@ -69,7 +71,7 @@ public class DefaultRestUserServiceTest {
 
         UserResource userResource = UserResource.builder().name("iurii").birthDate("1990-04-16").build();
 
-        ResponseEntity<Void> response = defaultRestUserService.createOrUpdate("5", "set", userResource);
+        ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "set", userResource);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -85,7 +87,7 @@ public class DefaultRestUserServiceTest {
 
         UserResource restrictionResource = UserResource.builder().name("iurii").birthDate("1990-04-16").build();
 
-        ResponseEntity<Void> response = defaultRestUserService.createOrUpdate("5", "add", restrictionResource);
+        ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "add", restrictionResource);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -99,7 +101,7 @@ public class DefaultRestUserServiceTest {
                                 withStatus(200).
                                 withHeader("Content-Type", "application/json")));
 
-        ResponseEntity<Void> response = defaultRestUserService.delete("5");
+        ResponseEntity<?> response = defaultRestUserService.delete("5");
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -118,9 +120,10 @@ public class DefaultRestUserServiceTest {
                                 withStatus(200).
                                 withHeader("Content-Type", "application/json")));
 
-        UserResource restrictionResource = UserResource.builder().name("iurii").birthDate("1990-04-16").build();
+        UserResource restrictionResource = UserResource.builder().name("iurii").birthDate("1990-04-16")
+                .updatedTime("2015-12-24T18:21:05Z").money("1234").build();
 
-        ResponseEntity<Void> response = defaultRestUserService.createOrUpdate("5", "set", restrictionResource);
+        ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "set", restrictionResource);
 
         assertThat(response).isNull();
     }

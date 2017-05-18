@@ -21,4 +21,8 @@ public class UserResource extends ResourceSupport {
 
     //@Pattern(regexp = "^[A-Z]{3}$")
     private final String birthDate;
+
+    private final String updatedTime;
+
+    private final String money;
 }

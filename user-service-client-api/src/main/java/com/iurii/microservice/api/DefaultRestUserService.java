@@ -11,21 +11,20 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.Assert;
-import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.TimeZone;
 
-public class DefaultRestUserService {
+public class DefaultRestUserService extends Timeoutable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultRestUserService.class);
 
@@ -45,9 +44,16 @@ public class DefaultRestUserService {
         restTemplate = createRestTemplate();
     }
 
+    // Using SimpleClientHttpRequestFactory
+    // but maybe in future we should switch to HttpComponentsClientHttpRequestFactory
+    // it is more flexible and uses thread pools
     private RestTemplate createRestTemplate() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        mapper.setDateFormat(dateFormat);
 
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(MediaType.parseMediaTypes("application/json"));
@@ -62,27 +68,12 @@ public class DefaultRestUserService {
         factory.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
         factory.setReadTimeout(DEFAULT_READ_TIMEOUT);
         template.setRequestFactory(factory);
-
-        // we don't want exceptions
-        template.setErrorHandler(new DefaultResponseErrorHandler() {
-            @Override
-            public void handleError(ClientHttpResponse response) throws IOException {
-                LOGGER.warn("Received error {}", response.getRawStatusCode());
-            }
-        });
-
-
         return template;
     }
 
-    public void setConnectionTimeout(int connectionTimeout) {
-        SimpleClientHttpRequestFactory factory = (SimpleClientHttpRequestFactory)restTemplate.getRequestFactory();
-        factory.setConnectTimeout(connectionTimeout);
-    }
-
-    public void setReadTimeout(int readTimeout) {
-        SimpleClientHttpRequestFactory factory = (SimpleClientHttpRequestFactory)restTemplate.getRequestFactory();
-        factory.setReadTimeout(readTimeout);
+    @Override
+    protected RestTemplate getRestTemplate() {
+        return restTemplate;
     }
 
     private String createAuthHeader(final String userName, final String password) {
@@ -90,7 +81,7 @@ public class DefaultRestUserService {
         return "Basic " + Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
     }
 
-    public ResponseEntity<Void> createOrUpdate(String id, String mode, UserResource userResource) {
+    public ResponseEntity<?> createOrUpdate(String id, String mode, UserResource userResource) {
         Assert.notNull(id, "id is mandatory");
 
         HttpHeaders headers = new HttpHeaders();
@@ -110,7 +101,7 @@ public class DefaultRestUserService {
         return responseEntity;
     }
 
-    public ResponseEntity<Void> delete(String id) {
+    public ResponseEntity<?> delete(String id) {
         Assert.notNull(id, "id is mandatory");
 
         HttpHeaders headers = new HttpHeaders();

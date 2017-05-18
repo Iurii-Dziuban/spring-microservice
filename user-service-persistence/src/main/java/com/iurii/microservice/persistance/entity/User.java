@@ -32,6 +32,9 @@ import java.time.ZonedDateTime;
     @Column(name = "UPDATED_TIME", columnDefinition = "timestamp", nullable = false)
     private ZonedDateTime updatedTime;
 
+    @Column(name = "MONEY", columnDefinition = "decimal", nullable = false)
+    private long money;
+
     @Transient
     private boolean isNew = false;
 

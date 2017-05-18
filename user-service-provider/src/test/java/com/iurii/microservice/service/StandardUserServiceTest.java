@@ -4,6 +4,7 @@ import com.iurii.microservice.api.resources.user.UserResource;
 import com.iurii.microservice.persistance.UserRepository;
 import com.iurii.microservice.persistance.entity.User;
 import com.iurii.microservice.service.converters.UserResourceConverter;
+import com.iurii.microservice.service.response.ServiceResponseCode;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;

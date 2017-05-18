@@ -2,7 +2,7 @@ package com.iurii.microservice.web;
 
 import com.iurii.microservice.api.resources.user.UserResource;
 import com.iurii.microservice.model.CreateOrUpdateUserRequest;
-import com.iurii.microservice.service.ServiceResponseCode;
+import com.iurii.microservice.service.response.ServiceResponseCode;
 import com.iurii.microservice.service.UserService;
 import com.iurii.microservice.web.common.CreateOrUpdateUserBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

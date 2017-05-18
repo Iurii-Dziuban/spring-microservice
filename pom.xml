@@ -57,6 +57,7 @@
 		<module>user-service-provider</module>
 		<module>user-service-persistence</module>
 		<module>user-service-client-api</module>
+		<module>user-service-webapp-interfaces</module>
     </modules>
 
 	<dependencyManagement>
