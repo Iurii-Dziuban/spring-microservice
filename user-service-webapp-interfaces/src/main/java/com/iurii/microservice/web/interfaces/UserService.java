@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
-    ResponseEntity<Void> createOrUpdate(final String userId, final String mode, UserResource userResource);
+    ResponseEntity<?> createOrUpdate(final String userId, final String mode, UserResource userResource);
 
-    ResponseEntity<Void> delete(final String userId);
+    ResponseEntity<?> delete(final String userId);
 
-    ResponseEntity<UserResource> get(final String userId);
+    ResponseEntity<?> get(final String userId);
 }

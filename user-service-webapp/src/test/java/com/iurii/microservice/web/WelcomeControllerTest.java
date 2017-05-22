@@ -1,4 +1,4 @@
-package com.iurii.microservice.service;
+package com.iurii.microservice.web;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;

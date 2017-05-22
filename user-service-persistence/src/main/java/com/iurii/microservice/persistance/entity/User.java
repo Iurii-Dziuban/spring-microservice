@@ -2,7 +2,8 @@ package com.iurii.microservice.persistance.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.Column;
@@ -17,7 +18,9 @@ import java.time.ZonedDateTime;
 @Table(schema="WEBSERVICE", name = "USER")
 @AllArgsConstructor
 @Builder
-@Data public class User implements Persistable<String> {
+@Getter
+@EqualsAndHashCode
+public class User implements Persistable<String> {
 
     @Id
     @Column(name = "ID", columnDefinition = "char")

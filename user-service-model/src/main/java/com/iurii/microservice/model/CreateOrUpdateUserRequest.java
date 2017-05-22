@@ -1,17 +1,17 @@
 package com.iurii.microservice.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
-@Data
+@Getter
 @Builder
 public class CreateOrUpdateUserRequest {
-    private String userId;
-    private String userName;
-    private LocalDate birthDate;
-    private ZonedDateTime updatedTime;
-    private long money;
+    private final String userId;
+    private final String userName;
+    private final LocalDate birthDate;
+    private final ZonedDateTime updatedTime;
+    private final long money;
 }

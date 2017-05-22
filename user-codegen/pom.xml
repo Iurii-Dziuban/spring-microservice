@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.4.3.RELEASE</version>
+            <version>1.5.3.RELEASE</version>
         </dependency>
 
     </dependencies>
@@ -43,7 +43,7 @@
                 <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>1.4.3.RELEASE</version>
+                <version>1.5.3.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

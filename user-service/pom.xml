@@ -146,6 +146,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <groups>com.iurii.microservice.IntegrationTest</groups>
+                            <systemPropertyVariables>
+                                <spring.profiles.active>dev</spring.profiles.active>
+                            </systemPropertyVariables>
                         </configuration>
                     </plugin>
                 </plugins>

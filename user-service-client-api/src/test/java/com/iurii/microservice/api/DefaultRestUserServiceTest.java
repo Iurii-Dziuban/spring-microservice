@@ -18,9 +18,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
-;
-
 public class DefaultRestUserServiceTest {
+
+    private static final String IURII = "iurii";
+    private static final String BIRTH_DATE = "1990-04-16";
+    private static final String UPDATED_TIME = "2015-12-24T18:21:05Z";
+    private static final String MONEY = "1234";
+
     @ClassRule
     public static WireMockClassRule wireMockRule = new WireMockClassRule(WireMockConfiguration.wireMockConfig().dynamicPort());
 
@@ -69,7 +73,7 @@ public class DefaultRestUserServiceTest {
                                 withStatus(200).
                                 withHeader("Content-Type", "application/json")));
 
-        UserResource userResource = UserResource.builder().name("iurii").birthDate("1990-04-16").build();
+        UserResource userResource = UserResource.builder().name(IURII).birthDate(BIRTH_DATE).build();
 
         ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "set", userResource);
 
@@ -85,7 +89,7 @@ public class DefaultRestUserServiceTest {
                                 withStatus(200).
                                 withHeader("Content-Type", "application/json")));
 
-        UserResource restrictionResource = UserResource.builder().name("iurii").birthDate("1990-04-16").build();
+        UserResource restrictionResource = UserResource.builder().name(IURII).birthDate(BIRTH_DATE).build();
 
         ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "add", restrictionResource);
 
@@ -120,8 +124,8 @@ public class DefaultRestUserServiceTest {
                                 withStatus(200).
                                 withHeader("Content-Type", "application/json")));
 
-        UserResource restrictionResource = UserResource.builder().name("iurii").birthDate("1990-04-16")
-                .updatedTime("2015-12-24T18:21:05Z").money("1234").build();
+        UserResource restrictionResource = UserResource.builder().name(IURII).birthDate(BIRTH_DATE)
+                .updatedTime(UPDATED_TIME).money(MONEY).build();
 
         ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "set", restrictionResource);
 

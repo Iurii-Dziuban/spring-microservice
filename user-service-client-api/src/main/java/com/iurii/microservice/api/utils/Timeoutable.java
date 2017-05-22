@@ -1,4 +1,4 @@
-package com.iurii.microservice.api;
+package com.iurii.microservice.api.utils;
 
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
