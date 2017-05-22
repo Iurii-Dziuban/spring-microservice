@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
@@ -34,13 +35,15 @@ public class StandardUserService implements UserService {
     }
 
     @Override
-    public ServiceResponseCode createUser(String id, String name, LocalDate birthDate) {
+    public ServiceResponseCode createUser(String id, String name, LocalDate birthDate, ZonedDateTime createdTime, long money) {
         boolean existsBcSig = userRepository.exists(id);
         User newUser = User.builder()
                 .isNew(!existsBcSig)
                 .id(id)
                 .name(name)
                 .birthDate(birthDate)
+                .updatedTime(createdTime)
+                .money(money)
                 .build();
 
         userRepository.save(newUser);
@@ -49,7 +52,7 @@ public class StandardUserService implements UserService {
     }
 
     @Override
-    public ServiceResponseCode updateUser(String id, String name, LocalDate birthDate) {
+    public ServiceResponseCode updateUser(String id, String name, LocalDate birthDate, ZonedDateTime updatedTime, long money) {
 
         User oldRestriction = userRepository.findOne(id);
         if (oldRestriction == null) {
@@ -61,6 +64,8 @@ public class StandardUserService implements UserService {
                 .id(id)
                 .name(name)
                 .birthDate(birthDate)
+                .updatedTime(updatedTime)
+                .money(money)
                 .build();
 
         userRepository.save(updatedUser);
@@ -68,9 +73,30 @@ public class StandardUserService implements UserService {
     }
 
     @Override
-    public ServiceResponseCode deleteUser(String bcSig) {
+    public ServiceResponseCode updateAddAmount(String id, long amount) {
+
+        User oldUser = userRepository.findOneAndLock(id);
+        if (oldUser == null) {
+            return ServiceResponseCode.NOT_FOUND;
+        }
+
+        User updatedUser = User.builder()
+                .isNew(false)
+                .id(oldUser.getId())
+                .name(oldUser.getName())
+                .birthDate(oldUser.getBirthDate())
+                .money(oldUser.getMoney() + amount)
+                .updatedTime(ZonedDateTime.now())
+                .build();
+
+        userRepository.save(updatedUser);
+        return ServiceResponseCode.OK;
+    }
+
+    @Override
+    public ServiceResponseCode deleteUser(String id) {
         try {
-            userRepository.delete(bcSig);
+            userRepository.delete(id);
         } catch (EmptyResultDataAccessException e) {
             return ServiceResponseCode.NOT_FOUND;
         }
@@ -79,7 +105,7 @@ public class StandardUserService implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserResource getRestriction(String id) {
+    public UserResource getUser(String id) {
         User user = userRepository.findOne(id);
         return converter.convert(user);
     }

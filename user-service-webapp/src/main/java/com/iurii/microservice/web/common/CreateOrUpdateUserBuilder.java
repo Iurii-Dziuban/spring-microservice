@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -23,6 +24,8 @@ public class CreateOrUpdateUserBuilder {
                 .userName(userResource.getName())
                 .userId(id)
                 .birthDate(date)
+                .updatedTime(ZonedDateTime.parse(userResource.getUpdatedTime()))
+                .money(Long.parseLong(userResource.getMoney()))
                 .build();
     }
 }

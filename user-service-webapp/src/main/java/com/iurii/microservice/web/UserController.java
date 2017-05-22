@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping(value = "/{userId}")
     public ResponseEntity<Void> createOrUpdate(
             @PathVariable("userId") final String userId, @RequestParam("mode")
-    @Pattern(regexp = "^update|set$") final String mode, @Valid @RequestBody UserResource userResource) {
+    @Pattern(regexp = "^update|set|updateAmount$") final String mode, @Valid @RequestBody UserResource userResource) {
 
         CreateOrUpdateUserRequest userRequest = builder.getCreateOrUpdateUserRequest(userId, userResource);
 
@@ -51,12 +51,16 @@ public class UserController {
 
         if ("set".equals(mode)) {
             serviceResponseCode = userService.createUser(userRequest.getUserId(), userRequest.getUserName(),
-                    userRequest.getBirthDate());
+                    userRequest.getBirthDate(), userRequest.getUpdatedTime(), userRequest.getMoney());
         }
 
         if ("update".equals(mode)) {
             serviceResponseCode = userService.updateUser(userRequest.getUserId(), userRequest.getUserName(),
-                    userRequest.getBirthDate());
+                    userRequest.getBirthDate(), userRequest.getUpdatedTime(), userRequest.getMoney());
+        }
+
+        if ("updateAmount".equals(mode)) {
+            serviceResponseCode = userService.updateAddAmount(userRequest.getUserId(), userRequest.getMoney());
         }
 
         return new ResponseEntity<>(HttpStatus.valueOf(serviceResponseCode.getCode()));
@@ -70,11 +74,11 @@ public class UserController {
 
     @GetMapping(value = "/{userId}")
     public ResponseEntity<UserResource> get(@PathVariable("userId") final String userId) {
-        UserResource restriction = userService.getRestriction(userId);
-        if (restriction == null) {
+        UserResource userResource = userService.getUser(userId);
+        if (userResource == null) {
             return ResponseEntity.notFound().build();
         }
-        restriction.add(linkTo(methodOn(UserController.class).get(userId)).withSelfRel());
-        return ResponseEntity.ok(restriction);
+        userResource.add(linkTo(methodOn(UserController.class).get(userId)).withSelfRel());
+        return ResponseEntity.ok(userResource);
     }
 }

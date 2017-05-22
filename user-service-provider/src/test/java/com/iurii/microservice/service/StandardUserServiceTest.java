@@ -11,6 +11,7 @@ import org.mockito.BDDMockito;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -23,6 +24,8 @@ public class StandardUserServiceTest {
     private static final String ID = "4";
     public static final LocalDate BIRTH_DATE = LocalDate.of(1990, 4, 16);
     public static final String NAME = "iurii";
+    public static final ZonedDateTime UPDATED_TIME = ZonedDateTime.now();
+    public static final long MONEY = 100L;
 
     private UserRepository repository;
     private StandardUserService service;
@@ -47,7 +50,7 @@ public class StandardUserServiceTest {
 
         given(converter.convert(user)).willReturn(userResource);
 
-        UserResource result = service.getRestriction(ID);
+        UserResource result = service.getUser(ID);
 
         assertThat(result).isNotNull();
         assertThat(result.getBirthDate()).isNotNull();
@@ -59,7 +62,7 @@ public class StandardUserServiceTest {
 
     @Test
     public void notFindRestriction() {
-        UserResource result = service.getRestriction(ID);
+        UserResource result = service.getUser(ID);
 
         assertThat(result).isNull();
         then(repository).should().findOne(ID);
@@ -69,7 +72,7 @@ public class StandardUserServiceTest {
     public void createRestriction() {
         given(repository.save((User) any())).willReturn(null);
 
-        ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE);
+        ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
         then(repository).should().save((User) any());
@@ -80,7 +83,7 @@ public class StandardUserServiceTest {
         given(repository.exists(ID)).willReturn(true);
         given(repository.save((User)any())).willReturn(null);
 
-        ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE);
+        ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
         then(repository).should().save((User)any());
@@ -91,7 +94,7 @@ public class StandardUserServiceTest {
         given(repository.findOne(ID)).willReturn(user);
         given(repository.save((User)any())).willReturn(null);
 
-        ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE);
+        ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
         then(repository).should().save((User) any());
@@ -100,7 +103,7 @@ public class StandardUserServiceTest {
 
     @Test
     public void updateRestrictionNotFoundFail() {
-        ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE);
+        ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.NOT_FOUND);
         then(repository).should().findOne(ID);

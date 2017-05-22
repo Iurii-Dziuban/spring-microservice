@@ -91,7 +91,7 @@ public class DefaultRestUserService extends Timeoutable {
         try {
             responseEntity = restTemplate.exchange("{serviceUri}/userService/v1/users/{id}?mode={mode}",
                     HttpMethod.POST,
-                    new HttpEntity<>(headers),
+                    new HttpEntity<>(userResource, headers),
                     new ParameterizedTypeReference<Void>() {
                     }, serviceUri, id, mode);
         } catch (Exception e) {
