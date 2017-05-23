@@ -36,6 +36,8 @@ public class UserTest {
                 .isNew(true)
                 .build();
 
+        user.setNew();
+
         assertThat(user.getBirthDate()).isEqualTo(birthDate);
         assertThat(user.getId()).isEqualTo(ID);
         assertThat(user.getName()).isEqualTo(IURII);
@@ -50,8 +52,11 @@ public class UserTest {
     public void testEquals() {
 
         User user = getBuilder().build();
-        User idIsNullUser = getBuilder().id(null).build();
-        User updatedTimeUser = getBuilder().updatedTime(null).build();
+        User idIsNull = getBuilder().id(null).build();
+        User updatedTimeIsNull = getBuilder().updatedTime(null).build();
+        User nameIsNull = getBuilder().name(null).build();
+        User birthDateIsNull = getBuilder().birthDate(null).build();
+        User notNew = getBuilder().isNew(false).build();
 
         assertThat(user.equals(getBuilder().id("2").build())).isFalse();
         assertThat(user.equals(getBuilder().name("1").build())).isFalse();
@@ -61,15 +66,25 @@ public class UserTest {
         assertThat(user.equals(getBuilder().isNew(false).build())).isFalse();
         assertThat(user.equals(null)).isFalse();
         assertThat(user.equals(new Object())).isFalse();
-        assertThat(user.equals(idIsNullUser)).isFalse();
-        assertThat(user.equals(updatedTimeUser)).isFalse();
+        assertThat(user.equals(idIsNull)).isFalse();
+        assertThat(user.equals(updatedTimeIsNull)).isFalse();
         assertThat(user.equals(user)).isTrue();
         assertThat(user.equals(getBuilder().build())).isTrue();
 
-        assertThat(idIsNullUser.equals(user)).isFalse();
-        assertThat(updatedTimeUser.equals(user)).isFalse();
-        assertThat(idIsNullUser.equals(getBuilder().id(null).build())).isTrue();
-        assertThat(updatedTimeUser.equals(getBuilder().updatedTime(null).build())).isTrue();
+        assertThat(idIsNull.equals(user)).isFalse();
+        assertThat(updatedTimeIsNull.equals(user)).isFalse();
+        assertThat(idIsNull.equals(getBuilder().id(null).build())).isTrue();
+        assertThat(updatedTimeIsNull.equals(getBuilder().updatedTime(null).build())).isTrue();
+
+        assertThat(nameIsNull.equals(user)).isFalse();
+        assertThat(nameIsNull.equals(getBuilder().name(null).build())).isTrue();
+
+        assertThat(birthDateIsNull.equals(user)).isFalse();
+        assertThat(birthDateIsNull.equals(getBuilder().birthDate(null).build())).isTrue();
+
+        assertThat(notNew.equals(user)).isFalse();
+        assertThat(notNew.equals(getBuilder().isNew(false).build())).isTrue();
+
         assertThat(user.equals(new TestUser())).isFalse();
         assertThat(new TestUser().equals(user)).isFalse();
 
@@ -82,15 +97,19 @@ public class UserTest {
     public void testHashCode() {
         User.UserBuilder builder = getBuilder();
 
-        User restriction = builder.build();
-        User bcIsNullRestriction = builder.id(null).build();
-        User currencyIsNullRestriction = builder.updatedTime(null).build();
-        User notNewRestriction = builder.isNew(false).build();
+        User user = builder.build();
+        User idIsNull = builder.id(null).build();
+        User updatedTimeIsNull = builder.updatedTime(null).build();
+        User nameIsNull = builder.name(null).build();
+        User birthDateIsNull = builder.birthDate(null).build();
+        User notNew = builder.isNew(false).build();
 
-        assertThat(restriction.hashCode()).isEqualTo(restriction.hashCode());
-        assertThat(bcIsNullRestriction.hashCode()).isEqualTo(bcIsNullRestriction.hashCode());
-        assertThat(currencyIsNullRestriction.hashCode()).isEqualTo(currencyIsNullRestriction.hashCode());
-        assertThat(notNewRestriction.hashCode()).isEqualTo(notNewRestriction.hashCode());
+        assertThat(user.hashCode()).isEqualTo(user.hashCode());
+        assertThat(idIsNull.hashCode()).isEqualTo(idIsNull.hashCode());
+        assertThat(updatedTimeIsNull.hashCode()).isEqualTo(updatedTimeIsNull.hashCode());
+        assertThat(nameIsNull.hashCode()).isEqualTo(nameIsNull.hashCode());
+        assertThat(birthDateIsNull.hashCode()).isEqualTo(birthDateIsNull.hashCode());
+        assertThat(notNew.hashCode()).isEqualTo(notNew.hashCode());
     }
 
     private User.UserBuilder getBuilder() {

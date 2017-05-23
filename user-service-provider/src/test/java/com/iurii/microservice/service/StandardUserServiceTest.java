@@ -45,7 +45,7 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void findRestriction() {
+    public void findUser() {
         given(repository.findOne(ID)).willReturn(user);
 
         given(converter.convert(user)).willReturn(userResource);
@@ -61,7 +61,7 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void notFindRestriction() {
+    public void notFindUser() {
         UserResource result = service.getUser(ID);
 
         assertThat(result).isNull();
@@ -69,7 +69,7 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void createRestriction() {
+    public void createUser() {
         given(repository.save((User) any())).willReturn(null);
 
         ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
@@ -79,7 +79,7 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void createRestrictionBcSigExists() {
+    public void createUserExists() {
         given(repository.exists(ID)).willReturn(true);
         given(repository.save((User)any())).willReturn(null);
 
@@ -90,7 +90,7 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void updateRestrictionSuccessfully() {
+    public void updateUserSuccessfully() {
         given(repository.findOne(ID)).willReturn(user);
         given(repository.save((User)any())).willReturn(null);
 
@@ -102,7 +102,7 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void updateRestrictionNotFoundFail() {
+    public void updateUserNotFoundFail() {
         ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.NOT_FOUND);
@@ -110,7 +110,7 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void deleteRestrictionNotFound() {
+    public void deleteUserNotFound() {
         willThrow(EmptyResultDataAccessException.class).given(repository).delete(ID);
 
         ServiceResponseCode responseCode = service.deleteUser(ID);
@@ -120,11 +120,32 @@ public class StandardUserServiceTest {
     }
 
     @Test
-    public void deleteRestrictionSuccessfully() {
+    public void deleteUserSuccessfully() {
         ServiceResponseCode responseCode = service.deleteUser(ID);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
         then(repository).should().delete(ID);
+    }
+
+
+    @Test
+    public void updateMoneySuccessfully() {
+        given(repository.findOneAndLock(ID)).willReturn(user);
+        given(repository.save((User)any())).willReturn(null);
+
+        ServiceResponseCode responseCode = service.updateAddAmount(ID, MONEY);
+
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
+        then(repository).should().save((User) any());
+        then(repository).should().findOneAndLock(ID);
+    }
+
+    @Test
+    public void updateMoneyUserNotFoundFail() {
+        ServiceResponseCode responseCode = service.updateAddAmount(ID, MONEY);
+
+        assertThat(responseCode).isEqualTo(ServiceResponseCode.NOT_FOUND);
+        then(repository).should().findOneAndLock(ID);
     }
 
 }

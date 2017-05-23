@@ -57,13 +57,13 @@ public class UserController {
                     "otherwise a new one will be created."
                     + "In case of \"updateAmount\" an user record must exist already for the id and amount is added ",
             response = Void.class,
-            authorizations = {@Authorization(value = "basicAuth")}, tags={  })
+            authorizations = {@Authorization(value = "basicAuth")}, tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "bc amount was adjusted", response = Void.class),
             @ApiResponse(code = 400, message = "something wrong with the input parameters", response = Void.class),
-            @ApiResponse(code = 404, message = "no bc credit restriction found for this BC in case of mode \"add\"",
+            @ApiResponse(code = 404, message = "no user found for this id in case of mode \"update\"",
                     response = Void.class),
-            @ApiResponse(code = 500, message = "System Error", response = Void.class) })
+            @ApiResponse(code = 500, message = "System Error", response = Void.class)})
     @PostMapping(value = "/{userId}")
     public ResponseEntity<Void> createOrUpdate(
             @PathVariable("userId") final String userId, @RequestParam("mode")
@@ -71,17 +71,20 @@ public class UserController {
 
         CreateOrUpdateUserRequest userRequest = builder.getCreateOrUpdateUserRequest(userId, userResource);
 
-        ServiceResponseCode serviceResponseCode = null;
+        ServiceResponseCode serviceResponseCode = ServiceResponseCode.NOT_FOUND;
 
-        switch (mode) {
-            case SET: serviceResponseCode = userService.createUser(userRequest.getUserId(), userRequest.getUserName(),
-                      userRequest.getBirthDate(), userRequest.getUpdatedTime(), userRequest.getMoney());
-                      break;
-            case UPDATE: serviceResponseCode = userService.updateUser(userRequest.getUserId(), userRequest.getUserName(),
-                         userRequest.getBirthDate(), userRequest.getUpdatedTime(), userRequest.getMoney());
-                         break;
-            case UPDATE_AMOUNT:
-            default: serviceResponseCode = userService.updateAddAmount(userRequest.getUserId(), userRequest.getMoney());
+        if (Mode.SET.equals(mode)) {
+            serviceResponseCode = userService.createUser(userRequest.getUserId(), userRequest.getUserName(),
+                    userRequest.getBirthDate(), userRequest.getUpdatedTime(), userRequest.getMoney());
+        }
+
+        if (Mode.UPDATE.equals(mode)) {
+            serviceResponseCode = userService.updateUser(userRequest.getUserId(), userRequest.getUserName(),
+                    userRequest.getBirthDate(), userRequest.getUpdatedTime(), userRequest.getMoney());
+        }
+
+        if (Mode.UPDATE_AMOUNT.equals(mode)) {
+            serviceResponseCode = userService.updateAddAmount(userRequest.getUserId(), userRequest.getMoney());
         }
 
         return new ResponseEntity<>(HttpStatus.valueOf(serviceResponseCode.getCode()));
@@ -89,12 +92,12 @@ public class UserController {
 
     @ApiOperation(value = "delete user record for the id",
             notes = "this is needed to delete user",
-            response = Void.class, authorizations = {@Authorization(value = "basicAuth")}, tags={  })
+            response = Void.class, authorizations = {@Authorization(value = "basicAuth")}, tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "user is deleted", response = Void.class),
             @ApiResponse(code = 400, message = "something wrong with the input parameters", response = Void.class),
             @ApiResponse(code = 404, message = "no user found for this id", response = Void.class),
-            @ApiResponse(code = 500, message = "System Error", response = Void.class) })
+            @ApiResponse(code = 500, message = "System Error", response = Void.class)})
     @DeleteMapping(value = "/{userId}")
     public ResponseEntity<Void> delete(@PathVariable("userId") final String userId) {
         ServiceResponseCode serviceResponseCode = userService.deleteUser(userId);
@@ -102,13 +105,13 @@ public class UserController {
     }
 
     @ApiOperation(value = "gets the available user for id", notes = "",
-            response = UserResource.class, authorizations = {@Authorization(value = "basicAuth")}, tags={  })
+            response = UserResource.class, authorizations = {@Authorization(value = "basicAuth")}, tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "If there is an user defined for the id then return the data",
                     response = UserResource.class),
             @ApiResponse(code = 400, message = "something wrong with the input parameters", response = UserResource.class),
-            @ApiResponse(code = 404, message = "no credit restriction found for this BC", response = UserResource.class),
-            @ApiResponse(code = 500, message = "System Error", response = UserResource.class) })
+            @ApiResponse(code = 404, message = "no user found for this id", response = UserResource.class),
+            @ApiResponse(code = 500, message = "System Error", response = UserResource.class)})
     @GetMapping(value = "/{userId}")
     public ResponseEntity<UserResource> get(@PathVariable("userId") final String userId) {
         UserResource userResource = userService.getUser(userId);
@@ -120,7 +123,7 @@ public class UserController {
     }
 
     @InitBinder
-    void initBinder(final WebDataBinder binder){
+    void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(Mode.class, new ModeBinder());
     }
 }

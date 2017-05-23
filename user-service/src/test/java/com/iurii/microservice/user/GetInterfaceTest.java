@@ -20,7 +20,7 @@ public class GetInterfaceTest extends AbstractModuleIntegrationTest {
     private static final HttpClient HTTP_CLIENT = HttpClientProvider.buildHttpClientWithCredentials();
 
     @Test
-    public void testGetBcSigData() throws IOException, JSONException {
+    public void testGetUserData() throws IOException, JSONException {
         String url = UrlBuilder.buildUrl(USER_RESOURCE, ID);
         HttpGet request = new HttpGet(url);
 
@@ -33,7 +33,7 @@ public class GetInterfaceTest extends AbstractModuleIntegrationTest {
     }
 
     @Test
-    public void testWhenBcSigNotFound() throws IOException {
+    public void testWhenUserNotFound() throws IOException {
         String url = UrlBuilder.buildUrl(USER_RESOURCE, DUMMY_ID);
         HttpGet request = new HttpGet(url);
 

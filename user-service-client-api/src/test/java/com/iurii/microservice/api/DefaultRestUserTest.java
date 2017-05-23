@@ -23,7 +23,7 @@ public class DefaultRestUserTest {
 
         Object body = entity.getBody();
         if (entity.getBody() instanceof UserResource) {
-            UserResource restrictionResource = (UserResource) body;
+            UserResource userResource = (UserResource) body;
         }
 
         if (entity.getBody() instanceof  Messages) {

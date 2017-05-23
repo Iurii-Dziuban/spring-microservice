@@ -19,7 +19,7 @@ public class DefaultUserResourceConverterTest {
     private DefaultUserResourceConverter converter = new DefaultUserResourceConverter();
 
     @Test
-    public void convertBusinessCaseRestriction() {
+    public void convertUser() {
         User user = User.builder()
                 .id("1")
                 .name(NAME)
@@ -35,6 +35,21 @@ public class DefaultUserResourceConverterTest {
         assertThat(result.getName()).isEqualTo(NAME);
         assertThat(result.getUpdatedTime()).isEqualTo(TIME.toString());
         assertThat(result.getMoney()).isEqualTo("1234");
+    }
+
+    @Test
+    public void convertUserIsNull() {
+        User user = User.builder()
+                .id("1")
+                .name(NAME)
+                .birthDate(BIRTH_DATE)
+                .updatedTime(TIME)
+                .money(1234)
+                .build();
+
+        UserResource result = converter.convert(null);
+
+        assertThat(result).isNull();
     }
 
 }

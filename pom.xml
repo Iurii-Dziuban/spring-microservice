@@ -45,8 +45,8 @@
 		<java.version>1.8</java.version>
 		<wd-bom.version>1.40</wd-bom.version>
 
-		<jacoco.ratio.instruction>0.00</jacoco.ratio.instruction>
-		<jacoco.ratio.bundle>0.00</jacoco.ratio.bundle>
+		<jacoco.ratio.instruction>1.00</jacoco.ratio.instruction>
+		<jacoco.ratio.bundle>1.00</jacoco.ratio.bundle>
 	</properties>
 
 	<modules>

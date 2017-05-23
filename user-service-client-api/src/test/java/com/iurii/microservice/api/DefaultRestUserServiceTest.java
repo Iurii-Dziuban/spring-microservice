@@ -89,9 +89,9 @@ public class DefaultRestUserServiceTest {
                                 withStatus(200).
                                 withHeader("Content-Type", "application/json")));
 
-        UserResource restrictionResource = UserResource.builder().name(IURII).birthDate(BIRTH_DATE).build();
+        UserResource userResource = UserResource.builder().name(IURII).birthDate(BIRTH_DATE).build();
 
-        ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "add", restrictionResource);
+        ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "add", userResource);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -124,10 +124,10 @@ public class DefaultRestUserServiceTest {
                                 withStatus(200).
                                 withHeader("Content-Type", "application/json")));
 
-        UserResource restrictionResource = UserResource.builder().name(IURII).birthDate(BIRTH_DATE)
+        UserResource userResource = UserResource.builder().name(IURII).birthDate(BIRTH_DATE)
                 .updatedTime(UPDATED_TIME).money(MONEY).build();
 
-        ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "set", restrictionResource);
+        ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "set", userResource);
 
         assertThat(response).isNull();
     }

@@ -36,9 +36,9 @@ public class StandardUserService implements UserService {
 
     @Override
     public ServiceResponseCode createUser(String id, String name, LocalDate birthDate, ZonedDateTime createdTime, long money) {
-        boolean existsBcSig = userRepository.exists(id);
+        boolean existsUser = userRepository.exists(id);
         User newUser = User.builder()
-                .isNew(!existsBcSig)
+                .isNew(!existsUser)
                 .id(id)
                 .name(name)
                 .birthDate(birthDate)
@@ -54,8 +54,8 @@ public class StandardUserService implements UserService {
     @Override
     public ServiceResponseCode updateUser(String id, String name, LocalDate birthDate, ZonedDateTime updatedTime, long money) {
 
-        User oldRestriction = userRepository.findOne(id);
-        if (oldRestriction == null) {
+        User oldUser = userRepository.findOne(id);
+        if (oldUser == null) {
             return ServiceResponseCode.NOT_FOUND;
         }
 

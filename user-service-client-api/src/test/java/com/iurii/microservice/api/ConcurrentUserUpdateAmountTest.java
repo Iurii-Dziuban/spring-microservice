@@ -1,10 +1,8 @@
 package com.iurii.microservice.api;
 
 import com.iurii.microservice.api.resources.user.UserResource;
-import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.concurrent.CountDownLatch;
@@ -12,6 +10,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  *
@@ -56,14 +57,14 @@ public class ConcurrentUserUpdateAmountTest {
                     try {
                         startLatch.await();
                     } catch (InterruptedException e) {
-                        Assertions.fail(e.getMessage());
+                        fail(e.getMessage());
                     }
                     concurrentMethod();
                     endLatch.countDown();
                     try {
                         endLatch.await();
                     } catch (InterruptedException e) {
-                        Assertions.fail(e.getMessage());
+                        fail(e.getMessage());
                     }
             });
         }
@@ -73,14 +74,12 @@ public class ConcurrentUserUpdateAmountTest {
 
         ResponseEntity<?> entity = userService.get(ID);
 
-        HttpStatus statusCode = entity.getStatusCode();
-
         Object body = entity.getBody();
         if (entity.getBody() instanceof UserResource) {
-            UserResource restrictionResource = (UserResource) body;
-            Assertions.assertThat(restrictionResource.getMoney()).isEqualTo(String.valueOf(AMOUNT));
+            UserResource userResourceInBody = (UserResource) body;
+            assertThat(userResourceInBody.getMoney()).isEqualTo(String.valueOf(AMOUNT));
         } else {
-            Assertions.fail(entity.getBody().toString());
+            fail(entity.getBody().toString());
         }
     }
 

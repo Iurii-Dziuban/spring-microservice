@@ -30,5 +30,6 @@ public class CreateOrUpdateUserRequestTest {
         assertThat(request.getBirthDate()).isEqualTo(BIRTH_DATE);
         assertThat(request.getUpdatedTime()).isEqualTo(TIME);
         assertThat(request.getMoney()).isEqualTo(1234);
+        assertThat(CreateOrUpdateUserRequest.builder().toString()).isNotNull();
     }
 }

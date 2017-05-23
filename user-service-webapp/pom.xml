@@ -87,7 +87,7 @@
                         <!-- Note: Exclude only functionality that can be covered via Integration tests -->
                         <exclude>com/iurii/microservice/web/WebSecurityConfiguration.class</exclude>
                         <exclude>com/iurii/microservice/web/ValidationConfiguration.class</exclude>
-                        <exclude>com/iurii/microservice/web/link/BusinessCaseLinkCreator.class</exclude>
+                        <exclude>com/iurii/microservice/web/link/UserLinkCreator.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>

@@ -55,7 +55,7 @@ Maven goal:
     mvn spring-boot:run -Drun.profiles=dev
     
 Maven goal:
-  cd gambling-credit-restriction-service
+  cd user-service
     mvn spring-boot:run -Dspring.profiles.active=dev
 
 4) Running integration tests.
@@ -90,7 +90,7 @@ Look for "springProfile" for default, dev profiles: Console appender, File appen
 Log folder: /logs
 
 Troubleshooting.
-If gcrs can not acquire connection / request hangs -> database lock on a record
+If userService can not acquire connection / request hangs -> database lock on a record
 - Check if the record is locked in db (in case request for particular record hangs)
 - Release the lock.
 Example
