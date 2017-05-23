@@ -27,8 +27,8 @@
 *Note* Rest interfaces should have same methods as rest controllers, however spring does not support rest controllers to implement interfaces. Consistency should be handled manually. 
 
 `user-codegen` - experimental project to generate java from swagger specification.
-                                      Could be handy for quick look.
-  `mvn clean generate-sources`
+Could be handy for quick look.
+`mvn clean generate-sources`
 
 # Running application locally with in memory h2 db with flyway migrations and swagger turned on :
 
@@ -38,24 +38,32 @@ run/debug `UserServiceStarter.java` as Spring boot application (set `Active prof
 
 Packaged jar:
 
-  `java -jar user-service/target/user-service.jar`
-         with profile
-  `java -Dspring.profiles.active=dev -jar user-service/target/user-service.jar`
+`java -jar user-service/target/user-service.jar`
 
-    with remote debuging
+with profile
 
-  `java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar user-service/target/user-service.jar`
-         with profile
-  `java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -Dspring.profiles.active=dev -jar user-service/target/user-service.jar`
+`java -Dspring.profiles.active=dev -jar user-service/target/user-service.jar`
+
+with remote debuging
+
+`java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar user-service/target/user-service.jar`
+
+with profile
+
+`java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -Dspring.profiles.active=dev -jar user-service/target/user-service.jar`
 
 ## Maven goal:
-  `cd user-service`
-    `mvn spring-boot:run`
-         with profile
-    `mvn spring-boot:run -Drun.profiles=dev`  
+`cd user-service`
+`mvn spring-boot:run`
+         
+with profile
+
+`mvn spring-boot:run -Drun.profiles=dev`  
+
 Or
-  `cd user-service`
-    `mvn spring-boot:run -Dspring.profiles.active=dev`
+
+`cd user-service`
+`mvn spring-boot:run -Dspring.profiles.active=dev`
 
 # Running integration tests.
   ## Maven
@@ -122,12 +130,13 @@ select * from V$SESSION where machine like '%user%'
  
  # Performance optimizations
  
- In order not to check if the record exists in the db - we can have one call to get record and try to update/delete it. In case error occurs just rollback the transaction and everything will be Ok.
- This will help to focus on normal flow and reduce number of calls to the db as they are expensive.
+In order not to check if the record exists in the db - we can have one call to get record and try to update/delete it. In case error occurs just rollback the transaction and everything will be Ok.
+
+This will help to focus on normal flow and reduce number of calls to the db as they are expensive.
  
- Also properties connectionTimeout and readTimeout are important and can be set. (default values are 60 seconds for both).
+Also properties connectionTimeout and readTimeout are important and can be set. (default values are 60 seconds for both).
  
- In multi-threaded environment they are important, cause configure how long to wait to acquire connection before timeout and how long to wait for the response after request was send.
+In multi-threaded environment they are important, cause configure how long to wait to acquire connection before timeout and how long to wait for the response after request was send.
  ```
  public abstract class Timeoutable {
  ...
