@@ -23,15 +23,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Concurrency test with N treads trying to update credit amount with THREAD_AMOUNT
  *
- * If initial value is N * THREAD_AMOUNT in the end -> amount should be zero!
+ * If initial value is zero in the end -> amount should be N * THREAD_AMOUNT!
  *
  * Created by iurii.dziuban on 10/05/2017.
  */
 public class ConcurrentUserTest extends AbstractModuleIntegrationTest {
 
+    private static final int INITIAL_MONEY_AMOUNT = 0;
     private static final int NUMBER_OF_THREADS = 10;
     private static final int ONE_THREAD_AMOUNT = 10;
     private static final int AMOUNT = NUMBER_OF_THREADS * ONE_THREAD_AMOUNT;
+
 
     @Test
     public void concurrentTest() throws Exception {
@@ -58,12 +60,12 @@ public class ConcurrentUserTest extends AbstractModuleIntegrationTest {
         exec.shutdown();
         exec.awaitTermination(50, TimeUnit.SECONDS);
 
-        assertThat(getMoney()).isEqualTo(0);
+        assertThat(getMoney()).isEqualTo(AMOUNT);
     }
 
     private void concurrentMethod() throws Exception{
         String requestBody = new RequestBody().setMoney(String.valueOf(ONE_THREAD_AMOUNT))
-                .setName(IURII).birthDate(BIRTH_DATE).setUpdatedTime(UPDATED_TIME).toString();
+                .setName(IURII).birthDate(BIRTH_DATE.toString()).setUpdatedTime(UPDATED_TIME.toString()).toString();
         String requestUrl = UrlBuilder.buildUserUrl(USER_RESOURCE, ID, Mode.UPDATE_AMOUNT.toString());
         HttpPost request = RequestProvider.getPostRequest(requestUrl, requestBody);
 
@@ -72,8 +74,8 @@ public class ConcurrentUserTest extends AbstractModuleIntegrationTest {
 
     private void createOrUpdate(String id, String mode) throws Exception {
         String requestUrl = UrlBuilder.buildUserUrl(USER_RESOURCE, id, mode);
-        String requestBody = new RequestBody().setMoney(String.valueOf(AMOUNT))
-                .setName(IURII).birthDate(BIRTH_DATE).setUpdatedTime(UPDATED_TIME).toString();
+        String requestBody = new RequestBody().setMoney(String.valueOf(INITIAL_MONEY_AMOUNT))
+                .setName(IURII).birthDate(BIRTH_DATE.toString()).setUpdatedTime(UPDATED_TIME.toString()).toString();
         HttpPost request = RequestProvider.getPostRequest(requestUrl, requestBody);
 
         SetInterfaceTest.HTTP_CLIENT.execute(request);

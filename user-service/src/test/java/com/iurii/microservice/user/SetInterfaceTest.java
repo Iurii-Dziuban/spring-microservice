@@ -20,26 +20,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SetInterfaceTest extends AbstractModuleIntegrationTest {
 
     public static final String SET_MODE = "set";
-    public static final String USER_URL = UrlBuilder.buildUserUrl(USER_RESOURCE, ID, SET_MODE);
     public static final HttpClient HTTP_CLIENT = HttpClientProvider.buildHttpClientWithCredentials();
-
-    @Test
-    public void testWhenUserReturnsNotFound() throws JSONException, IOException {
-        String requestBody = new RequestBody().setMoney(String.valueOf(MONEY))
-                .setName(DUMMY_ID).birthDate(BIRTH_DATE).setUpdatedTime(UPDATED_TIME).toString();
-        HttpPost request = RequestProvider.getPostRequest(USER_URL, requestBody);
-
-        HttpResponse response = HTTP_CLIENT.execute(request);
-
-        assertThat(response.getStatusLine().getStatusCode()).isEqualTo(404);
-    }
+    public static final String UPDATED_TIME_DB_FORMAT = "2015-12-24 18:21:05.0";
 
     @Test
     public void testWhenUserNotExistNewIsAdded() throws JSONException, IOException {
         String id = "ID" + generateTimeStamp();
         String requestUrl = UrlBuilder.buildUserUrl(USER_RESOURCE, id, SET_MODE);
         String requestBody = new RequestBody().setMoney(String.valueOf(MONEY))
-                .setName(IURII).birthDate(BIRTH_DATE).setUpdatedTime(UPDATED_TIME).toString();
+                .setName(IURII).birthDate(BIRTH_DATE.toString()).setUpdatedTime(UPDATED_TIME.toString()).toString();
         HttpPost request = RequestProvider.getPostRequest(requestUrl, requestBody);
 
         HttpResponse response = HTTP_CLIENT.execute(request);
@@ -47,8 +36,8 @@ public class SetInterfaceTest extends AbstractModuleIntegrationTest {
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
         assertMoneyEqualsTo(connection, MONEY, id);
         assertNameEqualsTo(connection, IURII, id);
-        assertBirthDateEqualsTo(connection, BIRTH_DATE, id);
-        assertUpdatedTimeEqualsTo(connection, UPDATED_TIME, id);
+        assertBirthDateEqualsTo(connection, BIRTH_DATE.toString(), id);
+        assertUpdatedTimeEqualsTo(connection, UPDATED_TIME_DB_FORMAT, id);
     }
 
     private static String generateTimeStamp() {

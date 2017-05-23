@@ -13,22 +13,22 @@ public class RequestBody extends JSONObject {
     public RequestBody() {}
 
     public RequestBody setName(String name) throws JSONException {
-        this.put(name, name);
+        this.put(this.name, name);
         return this;
     }
 
     public RequestBody birthDate(String birthDate) throws JSONException {
-        this.put(birthDate, birthDate);
+        this.put(this.birthDate, birthDate);
         return this;
     }
 
     public RequestBody setUpdatedTime(String updatedTime) throws JSONException {
-        this.put(updatedTime, updatedTime);
+        this.put(this.updatedTime, updatedTime);
         return this;
     }
 
     public RequestBody setMoney(String money) throws JSONException {
-        this.put(money, money);
+        this.put(this.money, money);
         return this;
     }
 

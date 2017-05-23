@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,8 +37,8 @@ public abstract class AbstractModuleIntegrationTest {
     private String DB_PASSWORD;
 
     public static final String IURII = "iurii";
-    public static final String BIRTH_DATE = "1990-04-16";
-    public static final String UPDATED_TIME = "2015-12-24T18:21:05Z";
+    public static final LocalDate BIRTH_DATE = LocalDate.parse("1990-04-16");
+    public static final ZonedDateTime UPDATED_TIME = ZonedDateTime.parse("2015-12-24T18:21:05Z");
     public static final long MONEY = 1234;
 
     public static final String ID = "USER_ID_001";

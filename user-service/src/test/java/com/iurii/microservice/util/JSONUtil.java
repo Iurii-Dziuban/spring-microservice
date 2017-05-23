@@ -16,11 +16,7 @@ public final class JSONUtil {
         return self.getString("href");
     }
 
-    public static JSONObject getResponseMoneyObject(String responseEntity) throws JSONException {
-        return new JSONObject(responseEntity).getJSONObject("money");
-    }
-
     public static long getResponseMoney(String responseEntity) throws JSONException, IOException {
-        return getResponseMoneyObject(responseEntity).getLong("value");
+        return new JSONObject(responseEntity).getLong("money");
     }
 }

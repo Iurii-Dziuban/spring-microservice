@@ -1,6 +1,8 @@
 language: java
 jdk:
   - oraclejdk8
+script:
+mvn clean install -PrunIntegrationTests
 after_success:
   - mvn versioneye:update
   - mvn clean cobertura:cobertura coveralls:report

@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.json.JSONException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,14 +20,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UpdateInterfaceTest extends AbstractModuleIntegrationTest {
 
-    private static final String USER_URL = UrlBuilder.buildUserUrl(USER_RESOURCE, ID, "update");
     private static final HttpClient HTTP_CLIENT = HttpClientProvider.buildHttpClientWithCredentials();
+    public static final String UPDATED_TIME_DB_FORMAT = "2015-12-24 18:21:05.0";
 
     @Test
-    public void testWhenUserReturnsNotFound() throws JSONException, IOException {
+    @Ignore
+    public void testWhenUserNotExistNewIsAdded() throws JSONException, IOException {
+        String id = "ID" + generateTimeStamp();
+        String requestUrl = UrlBuilder.buildUserUrl(USER_RESOURCE, id, "update");
         String requestBody = new RequestBody().setMoney(String.valueOf(MONEY))
-                .setName(DUMMY_ID).birthDate(BIRTH_DATE).setUpdatedTime(UPDATED_TIME).toString();
-        HttpPost request = RequestProvider.getPostRequest(USER_URL, requestBody);
+                .setName(IURII).birthDate(BIRTH_DATE.toString()).setUpdatedTime(UPDATED_TIME.toString()).toString();
+        HttpPost request = RequestProvider.getPostRequest(requestUrl, requestBody);
 
         HttpResponse response = HTTP_CLIENT.execute(request);
 
@@ -34,20 +38,19 @@ public class UpdateInterfaceTest extends AbstractModuleIntegrationTest {
     }
 
     @Test
-    public void testWhenUserNotExistNewIsAdded() throws JSONException, IOException {
-        String id = "ID" + generateTimeStamp();
-        String requestUrl = UrlBuilder.buildUserUrl(USER_RESOURCE, id, "update");
+    public void testWhenUserNotExistNewIsAdded1() throws JSONException, IOException {
+        String requestUrl = UrlBuilder.buildUserUrl(USER_RESOURCE, ID, "update");
         String requestBody = new RequestBody().setMoney(String.valueOf(MONEY))
-                .setName("not found").birthDate(BIRTH_DATE).setUpdatedTime(UPDATED_TIME).toString();
+                .setName(IURII).birthDate(BIRTH_DATE.toString()).setUpdatedTime(UPDATED_TIME.toString()).toString();
         HttpPost request = RequestProvider.getPostRequest(requestUrl, requestBody);
 
         HttpResponse response = HTTP_CLIENT.execute(request);
 
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(200);
-        assertMoneyEqualsTo(connection, MONEY, id);
-        assertNameEqualsTo(connection, IURII, id);
-        assertBirthDateEqualsTo(connection, BIRTH_DATE, id);
-        assertUpdatedTimeEqualsTo(connection, UPDATED_TIME, id);
+        assertMoneyEqualsTo(connection, MONEY, ID);
+        assertNameEqualsTo(connection, IURII, ID);
+        assertBirthDateEqualsTo(connection, BIRTH_DATE.toString(), ID);
+        assertUpdatedTimeEqualsTo(connection, UPDATED_TIME_DB_FORMAT, ID);
     }
 
     private static String generateTimeStamp() {

@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 
 public final class QueryExecutor {
@@ -16,8 +18,8 @@ public final class QueryExecutor {
 
     private QueryExecutor() {}
 
-    public static void insertUser(Connection connection, String tableName, String id, String updatedTime,
-                                  String birthDate, long money, String name) {
+    public static void insertUser(Connection connection, String tableName, String id, ZonedDateTime updatedTime,
+                                  LocalDate birthDate, long money, String name) {
         String insertQuery = QueryProvider.insertUser(tableName, id, updatedTime, birthDate, money, name);
         PreparedStatement insertStatement = null;
         try {

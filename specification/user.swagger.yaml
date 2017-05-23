@@ -102,21 +102,25 @@ definitions:
   User:
     type: object
     required:
-      - userId
-      - userName
+      - name
       - birthDate
+      - updatedTime
+      - money
     properties:
-      userId:
-        description: User identifier
-        type: string
-      userName:
+      name:
         description: User name
         type: string
       birthDate:
+        description: User name
+        type: string
+      updatedTime:
         description: date and time in ISO8601 format.
         type: string
+      money:
+        description: money - long value
+        type: long
          
-  ResponseLog:
+  Messages:
     description: free text lines with transaction related information which can be e.g. logged by the caller
     type: object
     required:
