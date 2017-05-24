@@ -8,6 +8,10 @@
 
   Project shows capabilities of spring boot micro service along with `spring mvc`, `rest`, `spring security`, `jpa`, `hibernate` and `h2` db.
 
+# Checks
+
+Jacoco code coverage, pmd, checkstyle, enforcer, findbugs
+
 # Project structure
 - `checkstyles` - contains checkstyle that is checked during build and fail if rules are violated. In addition findbugs and PMD (with duplication check) is checked and test coverage should be 100% otherwise build is failed.
    This ensures code quality. From checkstyle perspective imports are validated: 
