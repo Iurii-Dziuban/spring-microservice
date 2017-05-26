@@ -5,4 +5,4 @@ script:
   - mvn clean package -PrunIntegrationTests
 after_success:
   - mvn versioneye:update
-  - mvn clean cobertura:cobertura coveralls:report
+  - mvn clean test jacoco:report coveralls:report

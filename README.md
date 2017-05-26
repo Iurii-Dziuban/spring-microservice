@@ -6,7 +6,8 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/58e33daa26a5bb002b54c0c6/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58e33daa26a5bb002b54c0c6)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Iurii-Dziuban/spring-microservice/issues)
 
-  Project shows capabilities of spring boot micro service along with `spring mvc`, `rest`, `spring security`, `jpa`, `hibernate` and `h2` db.
+
+Project shows capabilities of spring boot micro service along with `spring mvc`, `rest`, `spring security`, `jpa`, `hibernate` and `h2` db.
 
 # Checks
 
