@@ -2,7 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 script:
-mvn clean install -PrunIntegrationTests
+  - mvn clean package -PrunIntegrationTests
 after_success:
   - mvn versioneye:update
   - mvn clean cobertura:cobertura coveralls:report
