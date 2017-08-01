@@ -9,6 +9,19 @@
 
 Project shows capabilities of spring boot micro service along with `spring mvc`, `rest`, `spring security`, `jpa`, `hibernate` and `h2` db.
 
+## Table of contents:
+ * [Static Analysis QA Checks](#checks)
+ * [Project structure](#project-structure)
+ * [Running in IDEA](#idea)
+ * [Running via maven goal](#maven-goal)
+ * [Running integration tests. Maven](#maven)
+ * [Running integration tests. IDEA](#intellij-idea)
+ * [Swagger](#swagger-on-local-env)
+ * [Logs](#logs)
+ * [TroubleShooting](#troubleshooting)
+ * [DB lock implementation](#db-lock-mechanism)
+ * [Performance optimizations](#performance-optimizations)
+ 
 # Checks
 
 Jacoco code coverage, pmd, checkstyle, enforcer, findbugs
@@ -101,7 +114,7 @@ Log configuration is under `user-service\src\main\resources\logback-spring.xml`
 Look for `springProfile` for `default`, `dev` profiles: Console appender, File appender, etc.
 Log folder: `/logs`
 
-# Troubleshooting.
+# Troubleshooting
 If userService can not acquire connection / request hangs -> database lock on a record
 - Check if the record is locked in db (in case request for particular record hangs)
 - Release the lock.
