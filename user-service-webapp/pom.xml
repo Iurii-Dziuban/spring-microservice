@@ -77,32 +77,4 @@
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <!-- Note: Exclude only functionality that can be covered via Integration tests -->
-                        <exclude>com/iurii/microservice/web/WebSecurityConfiguration.class</exclude>
-                        <exclude>com/iurii/microservice/web/ValidationConfiguration.class</exclude>
-                        <exclude>com/iurii/microservice/web/link/UserLinkCreator.class</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-    </build>
-
 </project>

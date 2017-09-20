@@ -1,467 +1,478 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.iurii.microservice</groupId>
-	<artifactId>user-service-reactor</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.iurii.microservice</groupId>
+    <artifactId>user-service-reactor</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>User Service build reactor</name>
-	<description>REST web service offering services related to user</description>
-	<inceptionYear>2017</inceptionYear>
+    <name>User Service build reactor</name>
+    <description>REST web service offering services related to user</description>
+    <inceptionYear>2017</inceptionYear>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.3.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<scm>
-		<connection>scm:git:https://github.com/Iurii-Dziuban/spring-microservice.git</connection>
-		<developerConnection>scm:git:git@github.com:Iurii-Dziuban/spring-microservice.git</developerConnection>
-		<url>https://github.com/Iurii-Dziuban/spring-microservice</url>
-		<tag>HEAD</tag>
-	</scm>
+    <scm>
+        <connection>scm:git:https://github.com/Iurii-Dziuban/spring-microservice.git</connection>
+        <developerConnection>scm:git:git@github.com:Iurii-Dziuban/spring-microservice.git</developerConnection>
+        <url>https://github.com/Iurii-Dziuban/spring-microservice</url>
+        <tag>HEAD</tag>
+    </scm>
 
-	<ciManagement>
-		<url>https://travis-ci.org/Iurii-Dziuban/spring-microservice</url>
-		<system>Travis</system>
-	</ciManagement>
+    <ciManagement>
+        <url>https://travis-ci.org/Iurii-Dziuban/spring-microservice</url>
+        <system>Travis</system>
+    </ciManagement>
 
-	<developers>
-		<developer>
-			<id>iurii.dziuban</id>
-			<name>Iurii Dziuban</name>
-			<email>ydzyuban@gmail.com</email>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>iurii.dziuban</id>
+            <name>Iurii Dziuban</name>
+            <email>ydzyuban@gmail.com</email>
+        </developer>
+    </developers>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
 
-		<swagger.version>2.7.0</swagger.version>
+        <swagger.version>2.7.0</swagger.version>
 
-		<jacoco.ratio.instruction>1.00</jacoco.ratio.instruction>
-		<jacoco.ratio.bundle>1.00</jacoco.ratio.bundle>
-	</properties>
+        <jacoco.ratio.instruction>1.00</jacoco.ratio.instruction>
+        <jacoco.ratio.bundle>1.00</jacoco.ratio.bundle>
+    </properties>
 
-	<modules>
-		<module>user-service</module>
-		<module>user-service-resource</module>
-		<module>user-service-model</module>
-		<module>user-service-webapp</module>
-		<module>user-service-provider</module>
-		<module>user-service-persistence</module>
-		<module>user-service-client-api</module>
-		<module>user-service-webapp-interfaces</module>
+    <modules>
+        <module>user-service</module>
+        <module>user-service-resource</module>
+        <module>user-service-model</module>
+        <module>user-service-webapp</module>
+        <module>user-service-provider</module>
+        <module>user-service-persistence</module>
+        <module>user-service-client-api</module>
+        <module>user-service-webapp-interfaces</module>
     </modules>
 
-	<dependencyManagement>
-		<dependencies>
+    <dependencyManagement>
+        <dependencies>
 
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.6</version>
-			</dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.6</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>23.0</version>
-			</dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>23.0</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.github.tomakehurst</groupId>
-				<artifactId>wiremock</artifactId>
-				<version>2.7.1</version>
-			</dependency>
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock</artifactId>
+                <version>2.8.0</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>1.4.196</version>
-			</dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.196</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-core</artifactId>
-				<version>4.2.0</version>
-			</dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>4.2.0</version>
+            </dependency>
 
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>2.9.0</version>
-			</dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>2.9.1</version>
+            </dependency>
 
-			<!-- Swagger codegen -->
-			<dependency>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>1.5.16</version>
-			</dependency>
+            <!-- Swagger codegen -->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>1.5.16</version>
+            </dependency>
 
-			<!-- AssertJ - new assertions framework -->
-			<dependency>
-				<groupId>org.assertj</groupId>
-				<artifactId>assertj-core</artifactId>
-				<version>3.8.0</version>
-				<scope>test</scope>
-			</dependency>
+            <!-- AssertJ - new assertions framework -->
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.8.0</version>
+                <scope>test</scope>
+            </dependency>
 
-		</dependencies>
-	</dependencyManagement>
+        </dependencies>
+    </dependencyManagement>
 
-	<build>
+    <build>
 
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.0.0</version>
-					<configuration>
-						<filesets>
-							<fileset>
-								<directory>.</directory>
-								<includes>
-									<include>db/**</include>
-									<include>logs/**</include>
-								</includes>
-								<followSymlinks>false</followSymlinks>
-							</fileset>
-						</filesets>
-					</configuration>
-				</plugin>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <filesets>
+                            <fileset>
+                                <directory>.</directory>
+                                <includes>
+                                    <include>db/**</include>
+                                    <include>logs/**</include>
+                                </includes>
+                                <followSymlinks>false</followSymlinks>
+                            </fileset>
+                        </filesets>
+                    </configuration>
+                </plugin>
 
-				<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.7.9</version>
-					<configuration>
-						<rules>
-							<rule>
-								<element>BUNDLE</element>
-								<limits>
-									<limit>
-										<counter>INSTRUCTION</counter>
-										<value>COVEREDRATIO</value>
-										<minimum>${jacoco.ratio.instruction}</minimum>
-									</limit>
-								</limits>
-							</rule>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.7.9</version>
+                    <configuration>
+                        <rules>
+                            <rule>
+                                <element>BUNDLE</element>
+                                <limits>
+                                    <limit>
+                                        <counter>INSTRUCTION</counter>
+                                        <value>COVEREDRATIO</value>
+                                        <minimum>${jacoco.ratio.instruction}</minimum>
+                                    </limit>
+                                </limits>
+                            </rule>
 
-							<rule>
-								<element>BUNDLE</element>
-								<limits>
-									<limit>
-										<counter>BRANCH</counter>
-										<value>COVEREDRATIO</value>
-										<minimum>${jacoco.ratio.bundle}</minimum>
-									</limit>
-								</limits>
-							</rule>
-						</rules>
-					</configuration>
+                            <rule>
+                                <element>BUNDLE</element>
+                                <limits>
+                                    <limit>
+                                        <counter>BRANCH</counter>
+                                        <value>COVEREDRATIO</value>
+                                        <minimum>${jacoco.ratio.bundle}</minimum>
+                                    </limit>
+                                </limits>
+                            </rule>
+                        </rules>
+                        <excludes>
+                            <!-- Note: Exclude only functionality that can be covered via Integration tests -->
+                            <exclude>com/iurii/microservice/web/WebSecurityConfiguration.class</exclude>
+                            <exclude>com/iurii/microservice/web/ValidationConfiguration.class</exclude>
+                            <exclude>com/iurii/microservice/web/link/UserLinkCreator.class</exclude>
+                        </excludes>
+                    </configuration>
 
-					<executions>
-						<execution>
-							<id>jacoco-initialize</id>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-						</execution>
+                    <executions>
+                        <execution>
+                            <id>jacoco-initialize</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
 
-						<execution>
-							<id>jacoco-report</id>
-							<goals>
-								<goal>report</goal>
-							</goals>
-						</execution>
+                        <execution>
+                            <id>jacoco-report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
 
-						<execution>
-							<id>jacoco-check</id>
-							<goals>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
+                        <execution>
+                            <id>jacoco-check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>findbugs-maven-plugin</artifactId>
-					<version>3.0.4</version>
-					<executions>
-						<execution>
-							<id>findbugs</id>
-							<goals>
-								<goal>check</goal>
-							</goals>
-							<phase>verify</phase>
-						</execution>
-					</executions>
-					<configuration>
-						<failOnError>true</failOnError>
-						<includeTests>false</includeTests>
-						<threshold>High</threshold>
-						<effort>Max</effort>
-					</configuration>
-				</plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>3.0.5</version>
+                    <executions>
+                        <execution>
+                            <id>findbugs</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <phase>verify</phase>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <failOnError>true</failOnError>
+                        <includeTests>false</includeTests>
+                        <threshold>High</threshold>
+                        <effort>Max</effort>
+                    </configuration>
+                </plugin>
 
-				<plugin>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>1.4.1</version>
-				</plugin>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>1.4.1</version>
+                </plugin>
 
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>rpm-maven-plugin</artifactId>
-					<version>2.1.5</version>
-				</plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>rpm-maven-plugin</artifactId>
+                    <version>2.1.5</version>
+                </plugin>
 
-				<plugin>
-					<artifactId>sonar-maven-plugin</artifactId>
-					<groupId>org.codehaus.mojo</groupId>
-					<version>3.3.0.603</version>
-				</plugin>
+                <plugin>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <version>3.3.0.603</version>
+                </plugin>
 
-			</plugins>
-		</pluginManagement>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>enforce</id>
+                            <configuration>
+                                <rules>
+                                    <reactorModuleConvergence/>
+                                    <DependencyConvergence/>
+                                    <!-- commented - to use sevtu checkstyle extension -->
+                                    <!-- <requireNoRepositories/>-->
+                                    <requireMavenVersion>
+                                        <version>3.0.5</version>
+                                    </requireMavenVersion>
+                                </rules>
+                            </configuration>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <phase>validate</phase>
+                        </execution>
+                    </executions>
+                </plugin>
 
-		<plugins>
+                <plugin>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<tagNameFormat>v@{project.version}</tagNameFormat>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<releaseProfiles>release</releaseProfiles>
-					<!-- sources & javadoc are already attached -->
-					<useReleaseProfile>false</useReleaseProfile>
-				</configuration>
-			</plugin>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>7.8.2</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.github.sevntu.checkstyle</groupId>
+                            <artifactId>sevntu-checkstyle-maven-plugin</artifactId>
+                            <version>1.23.1</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <configLocation>checkstyles/basic-checkstyle-no-javadoc.xml</configLocation>
+                                <logViolationsToConsole>true</logViolationsToConsole>
+                                <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
 
+                <plugin>
+                    <artifactId>maven-pmd-plugin</artifactId>
 
-
-			<plugin>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>enforce</id>
-						<configuration>
-							<rules>
-								<reactorModuleConvergence/>
-								<DependencyConvergence/>
-								<!-- commented - to use sevtu checkstyle extension -->
-								<!-- <requireNoRepositories/>-->
-								<requireMavenVersion>
-									<version>3.0.5</version>
-								</requireMavenVersion>
-							</rules>
-						</configuration>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<phase>validate</phase>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>7.8.2</version>
-					</dependency>
-					<dependency>
-						<groupId>com.github.sevntu.checkstyle</groupId>
-						<artifactId>sevntu-checkstyle-maven-plugin</artifactId>
-						<version>1.23.1</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<configLocation>checkstyles/basic-checkstyle-no-javadoc.xml</configLocation>
-							<logViolationsToConsole>true</logViolationsToConsole>
-							<includeTestSourceDirectory>true</includeTestSourceDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-pmd-plugin</artifactId>
-
-				<executions>
-					<execution>
-						<id>pmd-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<excludeFromFailureFile>exclude-pmd.properties</excludeFromFailureFile>
-						</configuration>
-					</execution>
-					<execution>
-						<goals>
-							<goal>cpd-check</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<targetJdk>${java.version}</targetJdk>
-					<minimumTokens>56</minimumTokens>
-					<linkXRef>false</linkXRef>
-					<verbose>true</verbose>
-					<excludes>
-						<exclude>**/persistance/**</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+                    <executions>
+                        <execution>
+                            <id>pmd-check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <excludeFromFailureFile>exclude-pmd.properties</excludeFromFailureFile>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <goals>
+                                <goal>cpd-check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <targetJdk>${java.version}</targetJdk>
+                        <minimumTokens>56</minimumTokens>
+                        <linkXRef>false</linkXRef>
+                        <verbose>true</verbose>
+                        <excludes>
+                            <exclude>**/persistance/**</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
 
 
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+            </plugins>
+        </pluginManagement>
 
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<!--
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <releaseProfiles>release</releaseProfiles>
+                    <!-- sources & javadoc are already attached -->
+                    <useReleaseProfile>false</useReleaseProfile>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-pmd-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <!--
                         <configuration>
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                         -->
-					</execution>
-				</executions>
-			</plugin>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<useReleaseProfile>false</useReleaseProfile>
-					<releaseProfiles>release</releaseProfiles>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>cobertura-maven-plugin</artifactId>
-                            <version>2.7</version>
-                            <configuration>
-                                <format>xml</format>
-                                <maxmem>256m</maxmem>
-                                    <!-- aggregated reports for multi-module projects -->
-                                <aggregate>true</aggregate>
-                            </configuration>
-                        </plugin>
-			
-			<plugin>
-                            <groupId>org.eluder.coveralls</groupId>
-                            <artifactId>coveralls-maven-plugin</artifactId>
-                            <version>4.3.0</version>
-                        </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <format>xml</format>
+                    <maxmem>256m</maxmem>
+                    <!-- aggregated reports for multi-module projects -->
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>com.versioneye</groupId>
-				<artifactId>versioneye-maven-plugin</artifactId>
-				<version>3.11.4</version>
-			</plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+            </plugin>
 
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>com.versioneye</groupId>
+                <artifactId>versioneye-maven-plugin</artifactId>
+                <version>3.11.4</version>
+            </plugin>
 
-	<profiles>
-		<profile>
-			<id>release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-enforcer-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>enforce-release-rules</id>
-								<goals>
-									<goal>enforce</goal>
-								</goals>
-								<configuration>
-									<rules>
-										<!-- When releasing, also enforce release dependencies / project version -->
-										<requireReleaseDeps/>
-										<requireReleaseVersion/>
-										<reactorModuleConvergence/>
-										<DependencyConvergence/>
-										<!-- commented - to use sevtu checkstyle extension -->
-										<!-- <requireNoRepositories/>-->
-										<requireMavenVersion>
-											<version>3.0.5</version>
-										</requireMavenVersion>
-									</rules>
-									<fail>true</fail>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+        </plugins>
+    </build>
 
-	<distributionManagement>
-		<repository>
-			<id>bintray</id>
-			<url>https://api.bintray.com/maven/iurii-dziuban/public/spring-microservice</url>
-		</repository>
-	</distributionManagement>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-release-rules</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <!-- When releasing, also enforce release dependencies / project version -->
+                                        <requireReleaseDeps/>
+                                        <requireReleaseVersion/>
+                                        <reactorModuleConvergence/>
+                                        <DependencyConvergence/>
+                                        <!-- commented - to use sevtu checkstyle extension -->
+                                        <!-- <requireNoRepositories/>-->
+                                        <requireMavenVersion>
+                                            <version>3.0.5</version>
+                                        </requireMavenVersion>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>sevntu-maven</id>
-			<name>sevntu-maven</name>
-			<url>http://sevntu-checkstyle.github.io/sevntu.checkstyle/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
+    <distributionManagement>
+        <repository>
+            <id>bintray</id>
+            <url>https://api.bintray.com/maven/iurii-dziuban/public/spring-microservice</url>
+        </repository>
+    </distributionManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sevntu-maven</id>
+            <name>sevntu-maven</name>
+            <url>http://sevntu-checkstyle.github.io/sevntu.checkstyle/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
