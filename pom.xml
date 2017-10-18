@@ -12,13 +12,6 @@
     <description>REST web service offering services related to user</description>
     <inceptionYear>2017</inceptionYear>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.3.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-
     <scm>
         <connection>scm:git:https://github.com/Iurii-Dziuban/spring-microservice.git</connection>
         <developerConnection>scm:git:git@github.com:Iurii-Dziuban/spring-microservice.git</developerConnection>
@@ -40,6 +33,7 @@
     </developers>
 
     <properties>
+        <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -127,6 +121,15 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -184,6 +187,8 @@
                             <exclude>com/iurii/microservice/web/WebSecurityConfiguration.class</exclude>
                             <exclude>com/iurii/microservice/web/ValidationConfiguration.class</exclude>
                             <exclude>com/iurii/microservice/web/link/UserLinkCreator.class</exclude>
+                            <exclude>com/iurii/microservice/SwaggerConfiguration.class</exclude>
+                            <exclude>com/iurii/microservice/UserServiceStarter.class</exclude>
                         </excludes>
                     </configuration>
 
@@ -280,7 +285,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.2</version>
+                            <version>8.3</version>
                         </dependency>
                         <dependency>
                             <groupId>com.github.sevntu-checkstyle</groupId>
@@ -419,6 +424,15 @@
                 <groupId>com.versioneye</groupId>
                 <artifactId>versioneye-maven-plugin</artifactId>
                 <version>3.11.4</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
             </plugin>
 
         </plugins>

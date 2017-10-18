@@ -113,7 +113,7 @@ public class DefaultRestUserServiceTest {
 
 
     @Test
-    public void shouldThrowExceptionAndBeNullValue() throws Exception {
+    public void shouldThrowExceptionOnCreateOrUpdateAndBeNullValue() throws Exception {
         defaultRestUserService.setReadTimeout(1000);
         defaultRestUserService.setConnectionTimeout(5000);
 
@@ -128,6 +128,37 @@ public class DefaultRestUserServiceTest {
                 .updatedTime(UPDATED_TIME).money(MONEY).build();
 
         ResponseEntity<?> response = defaultRestUserService.createOrUpdate("5", "set", userResource);
+
+        assertThat(response).isNull();
+    }
+
+    @Test
+    public void shouldThrowExceptionOnDeleteLimit() throws Exception {
+        defaultRestUserService.setReadTimeout(1000);
+        defaultRestUserService.setConnectionTimeout(5000);
+        givenThat(delete(urlEqualTo("/userService/v1/users/5"))
+                .willReturn(
+                        aResponse().
+                                withStatus(200).withFixedDelay(2000).
+                                withHeader("Content-Type", "application/json")));
+
+        ResponseEntity<?> response = defaultRestUserService.delete("5");
+
+        assertThat(response).isNull();
+    }
+
+    @Test
+    public void shouldThrowExceptionOnGetLimit() throws Exception {
+        defaultRestUserService.setReadTimeout(1000);
+        defaultRestUserService.setConnectionTimeout(5000);
+        givenThat(get(urlEqualTo("/userService/v1/users/5"))
+                .willReturn(
+                        aResponse().
+                                withStatus(200).withFixedDelay(2000).
+                                withHeader("Content-Type", "application/json").
+                                withBodyFile("body.json")));
+
+        ResponseEntity<UserResource> response = defaultRestUserService.get("5");
 
         assertThat(response).isNull();
     }
