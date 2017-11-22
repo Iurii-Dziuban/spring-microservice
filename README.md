@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/Iurii-Dziuban/spring-microservice.svg?branch=master)](https://travis-ci.org/Iurii-Dziuban/spring-microservice)
 [![Coverage Status](https://coveralls.io/repos/github/Iurii-Dziuban/spring-microservice/badge.svg?branch=master)](https://coveralls.io/github/Iurii-Dziuban/spring-microservice?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/58e33daa26a5bb002b54c0c6/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58e33daa26a5bb002b54c0c6)
+[![Dependency Status](https://www.versioneye.com/user/projects/5a11b2c40fb24f2a6c0d3071/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a11b2c40fb24f2a6c0d3071)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Iurii-Dziuban/spring-microservice/issues)
 
 
