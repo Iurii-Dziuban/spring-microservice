@@ -435,6 +435,12 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <version>3.3.0.603</version>
+            </plugin>
+
         </plugins>
     </build>
 
