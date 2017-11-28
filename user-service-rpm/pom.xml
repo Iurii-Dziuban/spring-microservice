@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.iurii.microservice</groupId>
+        <artifactId>user-service-reactor</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>user-service-rpm</artifactId>
+    <name>User Service RPM</name>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <username>user</username>
+        <groupname>user</groupname>
+
+        <app.conf.dir>/usr/share/${username}/config</app.conf.dir>
+        <app.lib.dir>/usr/share/${username}</app.lib.dir>
+        <app.java.name>user-service</app.java.name>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.iurii.microservice</groupId>
+            <artifactId>user-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>rpm</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/scripts</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*.sh</include>
+                        </includes>
+                        <targetPath>${project.build.outputDirectory}/scripts</targetPath>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rpm-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-rpm-version</id>
+                                <goals>
+                                    <goal>version</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>generate-rpm</id>
+                                <goals>
+                                    <goal>attached-rpm</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <distribution>User Service</distribution>
+                            <group>Applications/UserService</group>
+                            <needarch>noarch</needarch>
+                            <packager>${user.name}</packager>
+                            <url>http://</url>
+                            <defaultUsername>${username}</defaultUsername>
+                            <defaultGroupname>${groupname}</defaultGroupname>
+                            <defaultFilemode>640</defaultFilemode>
+                            <requires>
+                                <require>jdk8</require>
+                            </requires>
+                            <mappings>
+                                <!-- bin -->
+                                <mapping>
+                                    <directory>/usr/share/${username}</directory>
+                                    <sources>
+                                        <source>
+                                            <location>${project.build.outputDirectory}/scripts</location>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
+                                    <directory>/usr/share/${username}</directory>
+                                    <filemode>755</filemode>
+                                    <username>${username}</username>
+                                    <groupname>${groupname}</groupname>
+                                </mapping>
+                                <mapping>
+                                    <directory>/usr/share/${username}</directory>
+                                    <username>${username}</username>
+                                    <groupname>${groupname}</groupname>
+                                    <filemode>740</filemode>
+                                    <dependency>
+                                        <includes>
+                                            <include>
+                                                com.iurii.microservice:user-service:${project.version}
+                                            </include>
+                                        </includes>
+                                    </dependency>
+                                </mapping>
+                                <mapping>
+                                    <directory>/var/log/${username}</directory>
+                                    <filemode>755</filemode>
+                                    <username>${username}</username>
+                                    <groupname>${groupname}</groupname>
+                                </mapping>
+                                <mapping>
+                                    <directory>/etc/${username}</directory>
+                                    <filemode>755</filemode>
+                                    <username>${username}</username>
+                                    <groupname>${groupname}</groupname>
+                                </mapping>
+                            </mappings>
+
+                            <preinstallScriptlet>
+                                <script>
+                                    echo "Preparing to install ${project.artifactId}"
+                                    getent group ${groupname} &gt;/dev/null || groupadd -r ${groupname}
+                                    getent passwd ${username} &gt;/dev/null || \
+                                    useradd -r -g ${groupname} -d /usr/share/${username} -s /bin/bash \
+                                    -c "Technical user of ${project.artifactId}" ${username}
+                                    exit 0
+                                </script>
+                            </preinstallScriptlet>
+
+                            <postinstallScriptlet>
+                                <script>
+                                    su ${username} -c "ln -nfs /var/log/${username} /usr/share/${username}/logs"
+                                    su ${username} -c "ln -nfs /etc/${username} /usr/share/${username}/config"
+                                    ln -nfs /usr/share/${username}/user-service.jar /etc/init.d/${project.artifactId}
+                                    /sbin/chkconfig --add ${project.artifactId}
+                                    /sbin/service ${project.artifactId} start
+                                    echo "${project.artifactId} installed"
+                                    exit 0
+                                </script>
+                            </postinstallScriptlet>
+
+                            <preremoveScriptlet>
+                                <script>
+                                    /sbin/service ${project.artifactId} stop &gt; /dev/null
+                                    if [ "$1" = "0" ]; then
+                                    /sbin/chkconfig --del ${project.artifactId}
+                                    fi
+                                    exit 0
+                                </script>
+                            </preremoveScriptlet>
+
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+</project>

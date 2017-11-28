@@ -47,12 +47,14 @@
     <modules>
         <module>user-service</module>
         <module>user-service-resource</module>
+        <module>user-service-db</module>
         <module>user-service-model</module>
         <module>user-service-webapp</module>
         <module>user-service-provider</module>
         <module>user-service-persistence</module>
         <module>user-service-client-api</module>
         <module>user-service-webapp-interfaces</module>
+        <module>user-service-rpm</module>
     </modules>
 
     <dependencyManagement>

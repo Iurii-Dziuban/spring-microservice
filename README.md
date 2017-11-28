@@ -21,6 +21,9 @@ Project shows capabilities of spring boot micro service along with `spring mvc`,
  * [TroubleShooting](#troubleshooting)
  * [DB lock implementation](#db-lock-mechanism)
  * [Performance optimizations](#performance-optimizations)
+ * [Puppet configuration](#puppet-3-configuration)
+ * [Install rpm](#install-rpm-to-the-server)
+ * [initd service](#initd-service)
  
 # Checks
 
@@ -36,12 +39,13 @@ Jacoco code coverage, pmd, checkstyle, enforcer, findbugs
 - `user-service-client-api` - java client api. Can be used in integration tests and by real clients. Under `src/test/resources/__files` examples of requests can be found.
 - `user-service-model` - business model objects (POJOs)
 - `user-service-persistence` - jpa persistence (Entitiy objects)
+- `user-service-db` - contains db scripts for migrations of db schemas
 - `user-service-provider` - service classes with bussiness logic
 - `user-service-resource` - hateaos and UI model (Hateos classes)
 - `user-service-webapp` - rest controllers rest controllers (Entry point to application)
 - `user-service-webapp-interfaces` - rest interfaces (interfaces for rest controllers). Client API uses these interfaces.
 - `specification` - updated, latest swagger specification for the service.
-
+- `user-service-rpm` - creation of rpm
 *Note* Rest interfaces should have same methods as rest controllers, however spring does not support rest controllers to implement interfaces. Consistency should be handled manually. 
 
 `user-codegen` - experimental project to generate java from swagger specification.
@@ -52,36 +56,37 @@ Could be handy for quick look.
 
 ## IDEA:
 
+use Working directory `user-service` and program arguments `--spring.config.location=./config --logging.config=./config/logback-spring.xml`
 run/debug `UserServiceStarter.java` as Spring boot application (set `Active profiles` to `dev`)
 
 Packaged jar:
-
-`java -jar user-service/target/user-service.jar`
+cd user-service
+`java -Dspring.config.location=config -Dlogging.config=config/logback.xml -jar user-service/target/user-service.jar`
 
 with profile
-
-`java -Dspring.profiles.active=dev -jar user-service/target/user-service.jar`
+cd user-service
+`java -Dspring.profiles.active=dev -Dspring.config.location=config -Dlogging.config=config/logback.xml -jar user-service/target/user-service.jar`
 
 with remote debuging
-
-`java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar user-service/target/user-service.jar`
+cd user-service
+`java -Dspring.config.location=config -Dlogging.config=config/logback.xml -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/user-service.jar`
 
 with profile
 
-`java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -Dspring.profiles.active=dev -jar user-service/target/user-service.jar`
+`java -Dspring.config.location=config -Dlogging.config=config/logback.xml -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -Dspring.profiles.active=dev -jar target/user-service.jar`
 
 ## Maven goal:
 `cd user-service`
-`mvn spring-boot:run`
+`mvn spring-boot:run -Dspring.config.location=config -Dlogging.config=config/logback.xml`
          
 with profile
 
-`mvn spring-boot:run -Drun.profiles=dev`  
+`mvn spring-boot:run -Drun.profiles=dev -Dspring.config.location=config -Dlogging.config=config/logback.xml`  
 
 Or
 
 `cd user-service`
-`mvn spring-boot:run -Dspring.profiles.active=dev`
+`mvn spring-boot:run -Dspring.profiles.active=dev -Dspring.config.location=config -Dlogging.config=config/logback.xml`
 
 # Running integration tests.
   ## Maven
@@ -168,3 +173,133 @@ In multi-threaded environment they are important, cause configure how long to wa
      factory.setReadTimeout(readTimeout);
  }
  ```
+
+# Puppet 3 configuration
+
+_____ User Service (based on packaged rpm) ___________________________
+```
+files/<server domain>/ ...
+
+manifests/<server domain>.pp
+
+node '<server domain>' {
+
+  # Java
+    package { 'jdk8':
+      ensure => latest,
+    }
+  
+    file { '/usr/bin/java':
+      ensure  => 'link',
+      owner   => 'root',
+      group   => 'root',
+      target  => '/usr/share/jdk8/bin/java',
+      require => Package['jdk8'],
+    }
+   # RPM
+  package { 'rpm-build':
+      ensure  => latest,
+    }
+   # maven
+    package { 'maven3':
+      ensure  => latest,
+      require => File['/usr/bin/java'],
+    }
+    
+  file { '/usr/bin/mvn':
+      ensure  => 'link',
+      owner   => 'root',
+      group   => 'root',
+      target  => '/usr/share/maven3/bin/mvn',
+      require => Package['maven3'],
+  }
+  
+  file { '/var/lib/jenkins/.m2/settings.xml':
+      source  => "puppet:///${::environment}/default/<user>/m2-settings.xml",
+      require => File ['/var/lib/<user>/.m2'],
+      mode    => '0644',
+      owner   => 'user',
+      group   => 'user',
+  }
+    
+  # User Service 
+   
+    package {
+       [
+         'user-service-rpm',
+       ]:
+         ensure => latest,
+     }
+     
+  file { '/etc/user-service/application.properties':
+    source  => "puppet:///${::environment}/${::fqdn}/user-service/config/application.properties",
+    owner   => 'user',
+    group   => 'user',
+    mode    => '0640',
+    notify  => Service['user-service-rpm'],
+    # require => Package['user-service-rpm'],
+  }
+
+  file { '/etc/user-service/logback-spring.xml':
+    source  => "puppet:///${::environment}/${::fqdn}/user-service/config/logback-spring.xml",
+    owner   => 'user',
+    group   => 'user',
+    mode    => '0640',
+    notify  => Service['user-service-rpm'],
+    # require => Package['user-service-rpm'],
+  }
+    
+  file { '/usr/share/user-service/user-service.conf':
+    source  => "puppet:///${::environment}/${::fqdn}/user-service/src/main/resources/user-service.conf",
+    owner   => 'user',
+    group   => 'user',
+    mode    => '0640',
+    notify  => Service['user-service-rpm'],
+    # require => Package['user-service-rpm'],
+  }
+
+  service { 'user-service-rpm':
+    ensure     => 'running',
+    enable     => true,
+    hasrestart => true,
+    hasstatus  => true,
+  }
+  
+  # using existing shell file (not spring boot jar start/stop). Alternative configuration
+  
+  file { '/etc/init.d/user-service':
+          source  => "puppet://${::puppetmaster}/files/${::fqdn}/user-service-rpm/user-service_service",
+          mode    => '0755',
+          owner   => 'user',
+          group   => 'user',
+          ensure  => present,
+          # require => Package ['user-service-rpm'],
+    }
+    
+    service { "user-service" :
+          ensure     => running,
+          enable     => true,
+          start      => '/etc/init.d/user-service start',
+          stop       => '/etc/init.d/user-service stop',
+          require    => File['/etc/init.d/user-service'],
+          hasrestart => true,
+          restart    => '/etc/init.d/user-service restart',
+          hasstatus  => true,
+          status     => "/etc/init.d/user-service status",
+      }
+    
+  ```
+  
+# Install rpm to the server
+To create the rpm during the maven build `-Prpm` should be provided  
+`sh user-service-rpm/install.sh`
+DB changes are applied via .ini files (USER_SERVICE_1_0_0_RC1.ini either zip attachment or zip file on nexus)
+
+# initd service
+There are two configurations for running service provided:
+1) Old way: 
+- user-service_service is start/stop/restart/status initd script that invokes user-service.sh
+- user-service.sh is start java spring boot app with the arguments for config files.
+2) Spring boot way:
+- user-service-rpm initd script is linked to spring jar file that already has start/stop/restart/status options
+- user-service.conf has same name as jar file and will be picked up by spring boot application on start up. log/application config path provided here.

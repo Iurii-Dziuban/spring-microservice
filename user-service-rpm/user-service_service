@@ -1,0 +1,65 @@
+#!/bin/bash
+#
+# ${APP_USER}     Starts/stops user-service
+#
+# chkconfig: 2345 90 60
+# description: Starts and stops user-service_service
+
+APP_USER=user
+APP_HOME=/usr/share/user/user-service
+APP=user-service
+APP_START="nohup ./user-service.sh"
+
+start() {
+        su ${APP_USER} -c "cd ${APP_HOME} && ${APP_START}" &
+}
+
+stop() {
+        PID=$(pgrep -n -f -u ${APP_USER} ${APP})
+        kill -TERM $PID
+}
+
+case "$1" in
+  start)
+        if [ $(pgrep -n -f -u ${APP_USER} ${APP}) ] ; then
+            echo "User Service is already running"
+            RETVAL=1
+        else
+            echo "Starting User Service"
+            start
+            RETVAL=0
+        fi
+        ;;
+  stop)
+        if [ $(pgrep -n -f -u ${APP_USER} ${APP}) ] ; then
+            echo "Stopping User Service"
+            stop
+            RETVAL=0
+        else
+            echo "User Service is not running"
+            RETVAL=1
+        fi
+        ;;
+  restart)
+        if [ $(pgrep -n -f -u ${APP_USER} ${APP}) ] ; then
+            stop
+            sleep 3s
+        fi
+        start
+        RETVAL=0
+        ;;
+  status)
+        if [ $(pgrep -n -f -u ${APP_USER} ${APP}) ] ; then
+            echo "User Service is running with PID=`pgrep -n -f -u ${APP_USER} ${APP}`"
+            RETVAL=0
+        else
+            echo "User Service is NOT running"
+            RETVAL=3
+        fi
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|status|restart}"
+        RETVAL=1
+esac
+
+exit $RETVAL

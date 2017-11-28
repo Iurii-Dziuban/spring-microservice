@@ -20,7 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserServiceStarter.class, webEnvironment= SpringBootTest.WebEnvironment.DEFINED_PORT,
-        properties = {"flyway.locations=filesystem:../database/h2", "server.port=9100", "spring.profiles.default=dev"})
+        properties = {"flyway.locations=filesystem:../database/h2",
+                "spring.config.location=config",
+                "logging.config=config/logback-spring.xml",
+                "server.port=9100", "spring.profiles.default=dev"})
 @Category(IntegrationTest.class)
 public abstract class AbstractModuleIntegrationTest {
 
