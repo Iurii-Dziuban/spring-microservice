@@ -9,7 +9,7 @@
 
 Project shows capabilities of spring boot micro service along with `spring mvc`, `rest`, `spring security`, `jpa`, `hibernate` and `h2` db.
 
-## Table of contents:
+# Table of contents:
  * [Static Analysis QA Checks](#checks)
  * [Project structure](#project-structure)
  * [Running in IDEA](#idea)
@@ -24,10 +24,11 @@ Project shows capabilities of spring boot micro service along with `spring mvc`,
  * [Puppet configuration](#puppet-3-configuration)
  * [Install rpm](#install-rpm-to-the-server)
  * [initd service](#initd-service)
+ * [Ideas to try](#ideas)
  
 # Checks
 
-Jacoco code coverage, pmd, checkstyle, enforcer, findbugs
+`Jacoco`/`cobertura` code coverage, `pmd`, `checkstyle`, `enforcer`, `findbugs`
 
 # Project structure
 - `checkstyles` - contains checkstyle that is checked during build and fail if rules are violated. In addition findbugs and PMD (with duplication check) is checked and test coverage should be 100% otherwise build is failed.
@@ -149,7 +150,7 @@ select * from V$SESSION where machine like '%user%'
  }
 ```
  Lock will be automatically released after transaction is completed. 
- *Note* check that service methods/class have annotation `@Transactional`
+ **Note** check that service methods/class have annotation `@Transactional`
  
  # Performance optimizations
  
@@ -298,8 +299,10 @@ DB changes are applied via .ini files (USER_SERVICE_1_0_0_RC1.ini either zip att
 # initd service
 There are two configurations for running service provided:
 1) Old way: 
-- user-service_service is start/stop/restart/status initd script that invokes user-service.sh
-- user-service.sh is start java spring boot app with the arguments for config files.
+- `user-service_service` is start/stop/restart/status initd script that invokes user-service.sh
+- `user-service.sh` is start java spring boot app with the arguments for config files.
 2) Spring boot way:
-- user-service-rpm initd script is linked to spring jar file that already has start/stop/restart/status options
-- user-service.conf has same name as jar file and will be picked up by spring boot application on start up. log/application config path provided here.
+- `user-service-rpm` initd script is linked to spring jar file that already has start/stop/restart/status options
+- `user-service.conf` has same name as jar file and will be picked up by spring boot application on start up. log/application config path provided here.
+
+# Ideas
