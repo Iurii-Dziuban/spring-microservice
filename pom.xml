@@ -39,6 +39,7 @@
         <java.version>1.8</java.version>
 
         <swagger.version>2.7.0</swagger.version>
+        <logback.version>1.2.3</logback.version>
 
         <jacoco.ratio.instruction>1.00</jacoco.ratio.instruction>
         <jacoco.ratio.bundle>1.00</jacoco.ratio.bundle>
@@ -87,7 +88,7 @@
             <dependency>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
-                <version>5.0.2</version>
+                <version>5.0.3</version>
             </dependency>
 
             <dependency>
@@ -130,6 +131,18 @@
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
             </dependency>
 
         </dependencies>
@@ -440,7 +453,7 @@
             <plugin>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
-                <version>3.3.0.603</version>
+                <version>3.4.0.905</version>
             </plugin>
 
         </plugins>
