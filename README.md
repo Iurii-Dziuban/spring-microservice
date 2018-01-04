@@ -39,7 +39,7 @@ Project shows capabilities of spring boot micro service along with `spring mvc`,
 - `user-service` - spring boot entry point and main configuration. Integration tests also located there `@IntegrationTest` is used to determine if it is integration test.
 - `user-service-client-api` - java client api. Can be used in integration tests and by real clients. Under `src/test/resources/__files` examples of requests can be found.
 - `user-service-model` - business model objects (POJOs)
-- `user-service-persistence` - jpa persistence (Entitiy objects)
+- `user-service-persistence` - jpa persistence (Entitiy objects). With custom Assertj UserAssert implementation
 - `user-service-db` - contains db scripts for migrations of db schemas
 - `user-service-provider` - service classes with bussiness logic
 - `user-service-resource` - hateaos and UI model (Hateos classes)

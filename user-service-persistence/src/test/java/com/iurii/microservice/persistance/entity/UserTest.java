@@ -43,7 +43,8 @@ public class UserTest {
         assertThat(user.getName()).isEqualTo(IURII);
         assertThat(user.getMoney()).isEqualTo(MONEY);
         assertThat(user.getUpdatedTime()).isEqualTo(updatedTime);
-        assertThat(user.isNew()).isTrue();
+        // example of using UserAssert
+        UserAssert.assertThat(user).isNew();
         assertThat(builder.toString()).isNotNull();
         assertThat(user.toString()).isNotNull();
     }
