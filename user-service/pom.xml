@@ -88,11 +88,15 @@
                 <configuration>
                     <mainClass>com.iurii.microservice.UserServiceStarter</mainClass>
                     <executable>true</executable>
+                    <embeddedLaunchScriptProperties>
+                        <mode>service</mode>
+                    </embeddedLaunchScriptProperties>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
+                            <goal>build-info</goal>
                         </goals>
                     </execution>
                 </executions>

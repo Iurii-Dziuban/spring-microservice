@@ -16,7 +16,7 @@ Project shows capabilities of spring boot micro service along with `spring mvc`,
  * [Running via maven goal](#maven-goal)
  * [Running integration tests. Maven](#maven)
  * [Running integration tests. IDEA](#intellij-idea)
- * [Swagger](#swagger-on-local-env)
+ * [Additional endpoints ](#additional-endpoints )
  * [Logs](#logs)
  * [TroubleShooting](#troubleshooting)
  * [DB lock implementation](#db-lock-mechanism)
@@ -109,11 +109,17 @@ In order to use default environment instead of local configuration use:
 Run tests normally. Go to `Edit configurations` add property to `VM options` : `-Dspring.profiles.active=dev`
 and run. Otherwise tests with `@IfProfileValue(name ="spring.profiles.active", value ="dev")` will be skipped.
 
-# Swagger on local env:
+# Additional endpoints 
+Swagger on local env:
 URLs:
 - `http://localhost:9000/` ping page
 - `http://localhost:9000/swagger` - ui.html - UI representation of services.
 - `http://localhost:9000/v2/api-docs` - json swagger schema
+
+Spring Actuators: 
+- `http://localhost:9001/actuator` - all actuators listed
+- `http://localhost:9001/info` - info on the application
+- `http://localhost:9001/health` - health of the application
 
 # Logs
 Log configuration is under `user-service\src\main\resources\logback-spring.xml`
