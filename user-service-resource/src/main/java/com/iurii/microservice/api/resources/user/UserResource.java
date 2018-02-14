@@ -3,26 +3,28 @@ package com.iurii.microservice.api.resources.user;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.Value;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.validation.constraints.NotNull;
 
-@Value
+@Getter
 @ToString
 @Builder
 @JsonRootName("")
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserResource extends ResourceSupport {
 
     @NotNull
-    private final String name;
+    private String name;
 
     //@Pattern(regexp = "^[A-Z]{3}$")
-    private final String birthDate;
+    private String birthDate;
 
-    private final String updatedTime;
+    private String updatedTime;
 
-    private final String money;
+    private String money;
 }
