@@ -14,6 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 public class DefaultRestUserService extends Timeoutable implements UserService {
 
@@ -30,6 +31,9 @@ public class DefaultRestUserService extends Timeoutable implements UserService {
         LOGGER.info("Using service uri '{}'", serviceUri);
         authHeader = new AuthHeaderBuilder().build(userName, password);
         restTemplate = new RestTemplateBuilder().build();
+        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
+        defaultUriBuilderFactory.setParsePath(false);
+        restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
     }
 
     @Override

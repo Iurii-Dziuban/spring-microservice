@@ -57,37 +57,37 @@ Could be handy for quick look.
 
 ## IDEA:
 
-use Working directory `user-service` and program arguments `--spring.config.location=./config --logging.config=./config/logback-spring.xml`
+use Working directory `user-service` and program arguments `--spring.config.additional-location=./config --logging.config=./config/logback-spring.xml`
 run/debug `UserServiceStarter.java` as Spring boot application (set `Active profiles` to `dev`)
 
 Packaged jar:
 cd user-service
-`java -Dspring.config.location=config -Dlogging.config=config/logback.xml -jar user-service/target/user-service.jar`
+`java -Dspring.config.additional-location=config -Dlogging.config=config/logback.xml -jar user-service/target/user-service.jar`
 
 with profile
 cd user-service
-`java -Dspring.profiles.active=dev -Dspring.config.location=config -Dlogging.config=config/logback.xml -jar user-service/target/user-service.jar`
+`java -Dspring.profiles.active=dev -Dspring.config.additional-location=config -Dlogging.config=config/logback.xml -jar user-service/target/user-service.jar`
 
 with remote debuging
 cd user-service
-`java -Dspring.config.location=config -Dlogging.config=config/logback.xml -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/user-service.jar`
+`java -Dspring.config.additional-location=config -Dlogging.config=config/logback.xml -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/user-service.jar`
 
 with profile
 
-`java -Dspring.config.location=config -Dlogging.config=config/logback.xml -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -Dspring.profiles.active=dev -jar target/user-service.jar`
+`java -Dspring.config.additional-location=config -Dlogging.config=config/logback.xml -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -Dspring.profiles.active=dev -jar target/user-service.jar`
 
 ## Maven goal:
 `cd user-service`
-`mvn spring-boot:run -Dspring.config.location=config -Dlogging.config=config/logback.xml`
+`mvn spring-boot:run -Dspring.config.additional-location=config -Dlogging.config=config/logback.xml`
          
 with profile
 
-`mvn spring-boot:run -Drun.profiles=dev -Dspring.config.location=config -Dlogging.config=config/logback.xml`  
+`mvn spring-boot:run -Drun.profiles=dev -Dspring.config.additional-location=config -Dlogging.config=config/logback.xml`  
 
 Or
 
 `cd user-service`
-`mvn spring-boot:run -Dspring.profiles.active=dev -Dspring.config.location=config -Dlogging.config=config/logback.xml`
+`mvn spring-boot:run -Dspring.profiles.active=dev -Dspring.config.additional-location=config -Dlogging.config=config/logback.xml`
 
 # Running integration tests.
   ## Maven

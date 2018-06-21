@@ -22,10 +22,10 @@ import static org.mockito.Matchers.any;
 public class StandardUserServiceTest {
 
     private static final String ID = "4";
-    public static final LocalDate BIRTH_DATE = LocalDate.of(1990, 4, 16);
-    public static final String NAME = "iurii";
-    public static final ZonedDateTime UPDATED_TIME = ZonedDateTime.now();
-    public static final long MONEY = 100L;
+    private static final LocalDate BIRTH_DATE = LocalDate.of(1990, 4, 16);
+    private static final String NAME = "iurii";
+    private static final ZonedDateTime UPDATED_TIME = ZonedDateTime.now();
+    private static final long MONEY = 100L;
 
     private UserRepository repository;
     private StandardUserService service;
@@ -46,7 +46,7 @@ public class StandardUserServiceTest {
 
     @Test
     public void findUser() {
-        given(repository.findOne(ID)).willReturn(user);
+        given(repository.findOneAndLock(ID)).willReturn(user);
 
         given(converter.convert(user)).willReturn(userResource);
 
@@ -56,7 +56,7 @@ public class StandardUserServiceTest {
         assertThat(result.getBirthDate()).isNotNull();
         assertThat(result.getName()).isEqualTo(NAME);
 
-        then(repository).should().findOne(ID);
+        then(repository).should().findOneAndLock(ID);
         then(converter).should().convert(user);
     }
 
@@ -65,7 +65,7 @@ public class StandardUserServiceTest {
         UserResource result = service.getUser(ID);
 
         assertThat(result).isNull();
-        then(repository).should().findOne(ID);
+        then(repository).should().findOneAndLock(ID);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class StandardUserServiceTest {
 
     @Test
     public void createUserExists() {
-        given(repository.exists(ID)).willReturn(true);
+        given(repository.existsById(ID)).willReturn(true);
         given(repository.save((User)any())).willReturn(null);
 
         ServiceResponseCode responseCode = service.createUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
@@ -91,14 +91,14 @@ public class StandardUserServiceTest {
 
     @Test
     public void updateUserSuccessfully() {
-        given(repository.findOne(ID)).willReturn(user);
+        given(repository.findOneAndLock(ID)).willReturn(user);
         given(repository.save((User)any())).willReturn(null);
 
         ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
         then(repository).should().save((User) any());
-        then(repository).should().findOne(ID);
+        then(repository).should().findOneAndLock(ID);
     }
 
     @Test
@@ -106,17 +106,17 @@ public class StandardUserServiceTest {
         ServiceResponseCode responseCode = service.updateUser(ID, NAME, BIRTH_DATE, UPDATED_TIME, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.NOT_FOUND);
-        then(repository).should().findOne(ID);
+        then(repository).should().findOneAndLock(ID);
     }
 
     @Test
     public void deleteUserNotFound() {
-        willThrow(EmptyResultDataAccessException.class).given(repository).delete(ID);
+        willThrow(EmptyResultDataAccessException.class).given(repository).deleteById(ID);
 
         ServiceResponseCode responseCode = service.deleteUser(ID);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.NOT_FOUND);
-        then(repository).should().delete(ID);
+        then(repository).should().deleteById(ID);
     }
 
     @Test
@@ -124,19 +124,19 @@ public class StandardUserServiceTest {
         ServiceResponseCode responseCode = service.deleteUser(ID);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
-        then(repository).should().delete(ID);
+        then(repository).should().deleteById(ID);
     }
 
 
     @Test
     public void updateMoneySuccessfully() {
         given(repository.findOneAndLock(ID)).willReturn(user);
-        given(repository.save((User)any())).willReturn(null);
+        given(repository.save(any())).willReturn(null);
 
         ServiceResponseCode responseCode = service.updateAddAmount(ID, MONEY);
 
         assertThat(responseCode).isEqualTo(ServiceResponseCode.OK);
-        then(repository).should().save((User) any());
+        then(repository).should().save(any());
         then(repository).should().findOneAndLock(ID);
     }
 

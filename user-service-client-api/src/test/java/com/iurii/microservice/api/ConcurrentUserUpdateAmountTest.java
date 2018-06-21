@@ -31,10 +31,10 @@ public class ConcurrentUserUpdateAmountTest {
     private static final int ONE_THREAD_AMOUNT = 10;
     private static final int AMOUNT = NUMBER_OF_THREADS * ONE_THREAD_AMOUNT;
     private static final String ID = "id";
-    public static final String IURII = "Iurii";
-    public static final String BIRTH_DATE = "1990-04-16";
-    public static final String MONEY = "0";
-    public static final String UPDATED_TIME = "2015-12-24T18:21:05Z";
+    private static final String IURII = "Iurii";
+    private static final String BIRTH_DATE = "1990-04-16";
+    private static final String MONEY = "0";
+    private static final String UPDATED_TIME = "2015-12-24T18:21:05Z";
 
     private DefaultRestUserService userService =
             new DefaultRestUserService("http://localhost:9000", "user", "user");

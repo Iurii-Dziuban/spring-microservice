@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UpdateInterfaceTest extends AbstractModuleIntegrationTest {
 
     private static final HttpClient HTTP_CLIENT = HttpClientProvider.buildHttpClientWithCredentials();
-    public static final String UPDATED_TIME_DB_FORMAT = "2015-12-24 18:21:05.0";
+    private static final String UPDATED_TIME_DB_FORMAT = "2015-12-24 18:21:05";
 
     @Test
     public void testWhenUserNotExistNewIsAdded() throws JSONException, IOException {

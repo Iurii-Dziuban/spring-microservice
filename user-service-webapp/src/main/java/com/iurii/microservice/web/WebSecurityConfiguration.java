@@ -34,8 +34,9 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        // TODO: using {noop} considered bad for production
         auth
                 .inMemoryAuthentication()
-                .withUser(user).password(password).roles("USER");
+                .withUser(user).password("{noop}" + password).roles("USER");
     }
 }

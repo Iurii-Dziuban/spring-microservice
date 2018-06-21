@@ -21,7 +21,7 @@ public class SetInterfaceTest extends AbstractModuleIntegrationTest {
 
     public static final String SET_MODE = "set";
     public static final HttpClient HTTP_CLIENT = HttpClientProvider.buildHttpClientWithCredentials();
-    public static final String UPDATED_TIME_DB_FORMAT = "2015-12-24 18:21:05.0";
+    private static final String UPDATED_TIME_DB_FORMAT = "2015-12-24 18:21:05";
 
     @Test
     public void testWhenUserNotExistNewIsAdded() throws JSONException, IOException {

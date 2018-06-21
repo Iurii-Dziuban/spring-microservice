@@ -20,8 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserServiceStarter.class, webEnvironment= SpringBootTest.WebEnvironment.DEFINED_PORT,
-        properties = {"flyway.locations=filesystem:../database/h2",
-                "spring.config.location=config",
+        // TODO filesystem: is not working for spring.flyway.location
+        // TODO fix spring.config.additional-location
+        properties = {"spring.flyway.locations=classpath:h2",
+                "spring.config.additional-location=config",
                 "logging.config=config/logback-spring.xml",
                 "server.port=9100", "spring.profiles.default=dev"})
 @Category(IntegrationTest.class)

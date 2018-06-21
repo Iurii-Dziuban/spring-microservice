@@ -36,7 +36,7 @@ public class StandardUserService implements UserService {
 
     @Override
     public ServiceResponseCode createUser(String id, String name, LocalDate birthDate, ZonedDateTime createdTime, long money) {
-        boolean existsUser = userRepository.exists(id);
+        boolean existsUser = userRepository.existsById(id);
         User newUser = User.builder()
                 .isNew(!existsUser)
                 .id(id)
@@ -54,7 +54,7 @@ public class StandardUserService implements UserService {
     @Override
     public ServiceResponseCode updateUser(String id, String name, LocalDate birthDate, ZonedDateTime updatedTime, long money) {
 
-        User oldUser = userRepository.findOne(id);
+        User oldUser = userRepository.findOneAndLock(id);
         if (oldUser == null) {
             return ServiceResponseCode.NOT_FOUND;
         }
@@ -96,7 +96,7 @@ public class StandardUserService implements UserService {
     @Override
     public ServiceResponseCode deleteUser(String id) {
         try {
-            userRepository.delete(id);
+            userRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             return ServiceResponseCode.NOT_FOUND;
         }
@@ -106,7 +106,7 @@ public class StandardUserService implements UserService {
     @Override
     @Transactional(readOnly = true)
     public UserResource getUser(String id) {
-        User user = userRepository.findOne(id);
+        User user = userRepository.findOneAndLock(id);
         return converter.convert(user);
     }
 }
