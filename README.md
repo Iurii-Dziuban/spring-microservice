@@ -118,8 +118,8 @@ URLs:
 
 Spring Actuators: 
 - `http://localhost:9001/actuator` - all actuators listed
-- `http://localhost:9001/info` - info on the application
-- `http://localhost:9001/health` - health of the application
+- `http://localhost:9001/actuator/info` - info on the application
+- `http://localhost:9001/actuator/health` - health of the application
 
 # Logs
 Log configuration is under `user-service\src\main\resources\logback-spring.xml`
