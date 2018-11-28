@@ -3,6 +3,7 @@ package com.iurii.microservice.persistance.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Persistable;
 
@@ -15,8 +16,9 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(schema="WEBSERVICE", name = "USER")
+@Table(schema = "WEBSERVICE", name = "USER")
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Getter
 @EqualsAndHashCode
@@ -40,8 +42,6 @@ public class User implements Persistable<String> {
 
     @Transient
     private boolean isNew = false;
-
-    public User() { /* needed by reflection */ }
 
     public void setNew() {
         isNew = true;

@@ -42,7 +42,7 @@ public class DefaultRestUserServiceTest {
     }
 
     @Test
-    public void shouldSuccessfullyGetLimit() throws Exception {
+    public void shouldSuccessfullyGetLimit() {
         givenThat(get(urlEqualTo("/userService/v1/users/5"))
                 .willReturn(
                         aResponse().
@@ -66,7 +66,7 @@ public class DefaultRestUserServiceTest {
 
 
     @Test
-    public void shouldSuccessfullyCreateLimit() throws Exception {
+    public void shouldSuccessfullyCreateLimit() {
         givenThat(post(urlEqualTo("/userService/v1/users/5?mode=set"))
                 .willReturn(
                         aResponse().
@@ -82,7 +82,7 @@ public class DefaultRestUserServiceTest {
     }
 
     @Test
-    public void shouldSuccessfullyUpdateLimit() throws Exception {
+    public void shouldSuccessfullyUpdateLimit() {
         givenThat(post(urlEqualTo("/userService/v1/users/5?mode=add"))
                 .willReturn(
                         aResponse().
@@ -98,7 +98,7 @@ public class DefaultRestUserServiceTest {
     }
 
     @Test
-    public void shouldSuccessfullyDeleteLimit() throws Exception {
+    public void shouldSuccessfullyDeleteLimit() {
         givenThat(delete(urlEqualTo("/userService/v1/users/5"))
                 .willReturn(
                         aResponse().
@@ -113,7 +113,7 @@ public class DefaultRestUserServiceTest {
 
 
     @Test
-    public void shouldThrowExceptionOnCreateOrUpdateAndBeNullValue() throws Exception {
+    public void shouldThrowExceptionOnCreateOrUpdateAndBeNullValue() {
         defaultRestUserService.setReadTimeout(1000);
         defaultRestUserService.setConnectionTimeout(5000);
 
@@ -133,7 +133,7 @@ public class DefaultRestUserServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionOnDeleteLimit() throws Exception {
+    public void shouldThrowExceptionOnDeleteLimit() {
         defaultRestUserService.setReadTimeout(1000);
         defaultRestUserService.setConnectionTimeout(5000);
         givenThat(delete(urlEqualTo("/userService/v1/users/5"))
@@ -148,7 +148,7 @@ public class DefaultRestUserServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionOnGetLimit() throws Exception {
+    public void shouldThrowExceptionOnGetLimit() {
         defaultRestUserService.setReadTimeout(1000);
         defaultRestUserService.setConnectionTimeout(5000);
         givenThat(get(urlEqualTo("/userService/v1/users/5"))

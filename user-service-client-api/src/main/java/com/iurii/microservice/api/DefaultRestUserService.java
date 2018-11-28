@@ -33,6 +33,7 @@ public class DefaultRestUserService extends Timeoutable implements UserService {
         restTemplate = new RestTemplateBuilder().build();
         DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
         defaultUriBuilderFactory.setParsePath(false);
+        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
         restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
     }
 
