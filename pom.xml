@@ -39,7 +39,7 @@
         <java.version>1.8</java.version>
         <plugin.git.commit.version>2.2.5</plugin.git.commit.version>
         <plugin.maven.resources.version>3.1.0</plugin.maven.resources.version>
-        <swagger.version>2.9.2</swagger.version>
+        <swagger.version>2.10.0</swagger.version>
         <logback.version>1.2.3</logback.version>
 
         <jacoco.ratio.instruction>1.00</jacoco.ratio.instruction>
